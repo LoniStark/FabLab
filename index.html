@@ -17,6 +17,9 @@
         background-color: #000;
         color: #fff;
         padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
       /* Style for the main content of the page */
@@ -32,6 +35,20 @@
       main a {
         color: #007aff;
         text-decoration: none;
+      }
+
+      /* Style for the navigation links in the header */
+      header nav {
+        display: flex;
+        gap: 20px;
+      }
+
+      /* Style for the navigation link in the header */
+      header nav a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 18px;
       }
 
       /* Style for the about section */
@@ -54,16 +71,15 @@
   <body>
     <header>
       <h1>Digital Fabrication Page</h1>
+      <nav>
+        <a href="journal.html">Journal</a>
+        <a href="project_plans.html">Project Plans</a>
+        <a href="about.html">About Us</a>
+      </nav>
     </header>
     <main>
-      <h2>Journal</h2>
-      <p>Check out our latest articles and research in our <a href="journal.html">journal</a>.</p>
-      <h2>Project Plans</h2>
-      <p>Download our project plans and designs from our <a href="project_plans.html">project plans</a> page.</p>
-      <div class="about">
-        <h2>About Us</h2>
-        <p>Learn more about our team and mission on our <a href="about.html">about</a> page.</p>
-      </div>
+      <h2>Welcome to our Digital Fabrication Page</h2>
+      <p>Explore our resources and learn more about our team and mission.</p>
     </main>
     <footer>
       <p>&copy; 2023 Digital Fabrication Page</p>
