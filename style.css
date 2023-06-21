@@ -33,7 +33,7 @@
       }
 
       /* Style for the navigation links in the header */
-      header nav {
+      nav {
         display: flex;
         gap: 20px;
       }
@@ -44,6 +44,12 @@
         text-decoration: none;
         font-weight: bold;
         font-size: 18px;
+      }
+
+      /* Style for the photo section */
+      .photo {
+        text-align: center;
+        margin-bottom: 20px;
       }
 
       /* Style for the about section */
@@ -62,6 +68,6 @@
         font-size: 12px;
       }
 
-      
+
 
 
