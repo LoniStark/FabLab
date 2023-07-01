@@ -49,8 +49,11 @@ header nav a {
 
 /* Style for the photo section */
 .photo {
-  text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
       }
 
 /* Style for the about section */
@@ -83,4 +86,14 @@ p {font-size: 16px;}
   margin-left: 15px;
   margin-right: 15px;
   background-color: #000;
+}
+
+figcaption {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: lighter;
+  color: white;
+  margin-top: 10px;
+  background-color: #5A5A5A;
+  padding: 5px;
 }
