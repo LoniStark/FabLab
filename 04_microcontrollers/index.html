@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
+
+<body>
+
+  <header>
+  <nav class="navbar navbar-expand-sm"> 
+  <div style="align-items: left; justify-content:left;" class="container-fluid">
+    <h3 class="nav-title">Explorations in Digital Fabrication</h3>
+    <div class="navbar-nav" style="align-items: right;">
+      <h4><a class="nav-link" href="https://fablab.atelierstark.com/index.html">Home</a></h4>
+      <h4><a class="nav-link" href="https://fablab.atelierstark.com/about.html">About</a></h4>
+    </div>
+  </div>
+</nav>
+</header>
+
+<xmp style="display:none;">
+
+<br> 
+
+### Microcontroller Programming
+
+Moisture Sensor Experiments
+
+Moisture
+
+- if levels too high – red, solid
+- if level too low – red, blinking
+- if level is dangerous – yellow, solid
+
+x levels of moisture
+compare to plant type
+result from calculation
+dispense appropriate water
+
+Dry to Too Wet
+
+Red, solid -> yellow, solid -> green solid, 
+- 
+
+Sparkfun soil moisture sensor:
+- Part: https://www.sparkfun.com/products/13637 
+- Hook up guide: https://learn.sparkfun.com/tutorials/soil-moisture-sensor-hookup-guide?_ga=2.73005718.443370483.1688246978-1205062100.1688246978
+- Don’t need to solder, for final project should have this.
+
+PHOTO of hook up
+
+I started with the basic soil moisture Arduino code example. 
+
+
+Didn't have an LCD monitor so decided I would code based on colored lights
+
+Dry to too wet
+
+Red, solid -> yellow, solid -> green solid -> yellow, blinking -> Red, blinking
+
+
+Given my coffee experiment - seems go from 0 (dry) to totally wet (in my coffee) ~1000
+
+For now, I will set my ranges as constants and go with integers vs floats as 100 increments of moisture is well enough for even the pickiest of plants I would imagine. In future could see a plant database calibrated by experts as well as the potential size of the plant to determine not only when a plant needs water but howmuch to dispense. 
+
+
+I adjusted the code so instead of printing the value detected, I printed out: value, color and blick or not.
+
+
+Here is the code:
+
+/*  Soil Moisture Traffic Light
+    This sketch was written starting from examples from SparkFun Electronics and the Arduino Projects Book. 
+    Loni Stark
+    July 1, 2023
+
+    Checks soil moisture levels and alerts plant parent with possible 5 values:
+    - too dry: red solid light
+    - dry warning: red blink light
+    - green: plant is at right moisture
+    - wet warning: yellow blinking light
+    - too wet: yellow solid light
+
+*/
+
+int val = 0; //value for storing moisture value 
+int soilPin = A0;//Declare a variable for the soil moisture sensor 
+int soilPower = 7;//Variable for Soil moisture Power
+int lightColor = 1; //Variable for light color: RED = 0, YELLOW = 1, GREEN = 2;
+int blink= 0; // Variable for if light will blink. blink = 1, no blink = 0
+
+const int TOO_DRY = 200; //value equal or below is considered too dry
+const int WARN_DRY = 300; //value less than or above TOO_DRY is considered a dry warning
+const int WARN_WET = 600; //value greater than or below TOO_WET is considered a wet warning
+const int TOO_WET = 700; //value equal or greater than is considered too wet. 
+const int RED = 0;
+const int GREEN = 1;
+const int YELLOW = 2;
+const int ERROR = -1;
+
+
+//Rather than powering the sensor through the 3.3V or 5V pins, the digital pin 7 will
+//be used to power hte sensor. This will prevent corrosion of the sensor as it is in soil. 
+//The 3.3V power output will be used to power the red, yellow and green lights.
+
+void setup() 
+{
+  Serial.begin(9600);   // open serial over USB
+
+  pinMode(soilPower, OUTPUT);//Set D7 as an OUTPUT
+  digitalWrite(soilPower, LOW);//Set to LOW so no power is flowing through the sensor
+}
+
+void loop() 
+{
+
+Serial.println("===SOIL CONDITION====");
+
+Serial.print("Soil Moisture = ");    
+//get soil moisture value from the function below and print it
+Serial.println(readSoil());
+
+Serial.print("Light Color = "); 
+//set color indicator state for soil moisture.
+Serial.println(setLightColor());
+
+Serial.print("Light Blink = "); 
+//set blink indicator state for soil moisture.
+Serial.println(setLightBlink());
+
+Serial.println(" ");
+
+//This 2 second timefrme is used so you can test the sensor and see it change in real-time.
+//For in-plant applications, you will want to take readings much less frequently.
+delay(2000);//take a reading every second
+}
+//This is a function used to get the soil moisture content
+int readSoil()
+{
+
+    digitalWrite(soilPower, HIGH);//turn D7 "On"
+    delay(10);//wait 10 milliseconds 
+    val = analogRead(soilPin);//Read the SIG value form sensor 
+    digitalWrite(soilPower, LOW);//turn D7 "Off"
+    return val;//send current moisture value
+}
+
+int setLightBlink () {
+  //function to set the light color based on soilPin value
+   if (val <= TOO_DRY){
+      blink = 0;
+   }
+    else if (val <= WARN_DRY){
+      blink = 1;
+    }
+
+    else if (val <= WARN_WET){
+      blink = 0;
+    }
+
+    else if (val > WARN_WET){
+      blink = 1;
+    }
+
+    else if (val > TOO_WET){
+      blink = 0;
+    }
+
+    else{
+      blink = ERROR;
+    }
+
+
+    return blink;
+}
+
+int setLightColor () {
+  //function to set the light color based on soilPin value
+   if (val <= TOO_DRY){
+      lightColor = RED;
+   }
+    else if (val <= WARN_DRY){
+      lightColor = RED;
+    }
+
+    else if (val <= WARN_WET){
+      lightColor = GREEN;
+    }
+
+    else if (val > WARN_WET){
+      lightColor = YELLOW;
+    }
+
+    else if (val > TOO_WET){
+      lightColor = YELLOW;
+    }
+    
+    else {
+      lightColor = ERROR;
+    }
+    return lightColor;
+}
+
+
+Need to learn about the Arduino IoT Cloud...
+
+
+
+</xmp>
+
+<footer>
+      <p>   &copy; Atelier Stark 2023</p>
+</footer>
+
+
+</body>
+
+<script src="https://fablab.atelierstark.com/strapdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
+
+
+</html>
+
