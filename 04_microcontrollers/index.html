@@ -202,6 +202,35 @@ int setLightColor () {
 }
 
 
+Next, I built the circuit and played with the code for the Spaceship Interface to understand how outputs worked so that I could hook up the input from the soil moisture monitor to the output of red, yellow and green LEDs with the state of solid or blinking light to signal each of the states of a plant. I didn't have all the right resisters for the project. 
+
+I added another variable to save the state of the light color that was turned on and then turn it off if the blink variable was on (equal to 1). In order to test this out, I had to change the constant values for the different moisture levels in order for there to be enough of a range for the blinking to occur. Otherwise, it was challenging to get the blinking to work even if the "blink" flag was on based on the println results.
+
+const int TOO_DRY = 50; //value equal or below is considered too dry
+const int WARN_DRY = 450; //value less than or above TOO_DRY is considered a dry warning
+const int WARN_WET = 460; //value greater than or below TOO_WET is considered a wet warning
+const int TOO_WET = 900; //value equal or greater than is considered too wet. 
+const int RED = 0;
+const int GREEN = 1;
+const int YELLOW = 2;
+const int ERROR = -1;
+
+ADD IN THE VIDEO TEST
+
+Next up is using the Love-O-Meter example to see how I can get the temperature sensor hooked up to my plant care monitor. After going through the example, I modified it to be additive to the circuit that I was building. Instead of connecting the input from the temperature sensor to "A0", I used the next port over, "A1". In addition, unlike the moisture sensor which I wanted to minimize reads to prevent corrosion of the sensor device, I put the sensor before the button so the temperature sensor is always on and sending inputs. I also put in code to warn of too hot or too cold temperatures. I can see how an LCD screen or some other more flexible output device rather than LED lights can come in handy here. Instead of adding another light, I am just going to look at the serial output and later on, hook up a richer output device.
+
+I included a function:
+
+int readTemp()
+{
+    val = analogRead(tempPin);//Read the SIG value from temp sensor 
+    return val;//send current temp value
+}
+
+The readings I got from it was 1023. I could not find the part information so I will look into it when I have access to the lab again. I am realizing just like a bench for electricity, I almost need one for moisture and temperature to check on the validity of the sensors and my set up!
+
+
+
 Need to learn about the Arduino IoT Cloud...
 
 
