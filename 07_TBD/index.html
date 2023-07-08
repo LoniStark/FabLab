@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
+
+<body>
+
+  <header>
+  <nav class="navbar navbar-expand-sm"> 
+  <div style="align-items: left; justify-content:left;" class="container-fluid">
+    <h3 class="nav-title">Explorations in Digital Fabrication</h3>
+    <div class="navbar-nav" style="align-items: right;">
+      <h4><a class="nav-link" href="https://fablab.atelierstark.com/index.html">Home</a></h4>
+      <h4><a class="nav-link" href="https://fablab.atelierstark.com/about.html">About</a></h4>
+    </div>
+  </div>
+</nav>
+</header>
+
+<xmp style="display:none;">
+
+<br> 
+
+### 3D Scanning and Printing
+<br>
+
+<h4>My Ear: Scanning</h4>
+
+
+Given my foray into figurative sculptures, I thought it would be interesting to model my own ear in plastiline and then 3D scan and print it. Thought it would be a nod to Van Gogh in a way. 
+
+I was also curious to see how accurately 3D scanning and printing can be in replicating an original sculpture made of something like plaster, clay or plastalina. Robinson Foundry has an interesting video that discusses this topic. 
+
+<iframe class="video" src="https://www.youtube.com/embed/rYNTua5fXxY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+In the lost wax process, which is often used for the fine arts process, the original sculpture is destroyed in the process of making the mold (https://en.wikipedia.org/wiki/. Could using 3D scanning allow for creation of accurate models that allow for bronze to be cast without impacting the original sculpture? Companies like Form Capture are already starting to offer services such as these (https://formcapture.com/3d-scanning-art-sculpture/). While the moulds can be used for multiple runs to create more sculptures, over time the nuanced surface textures are destroyed. A recent discussion I had was how the later runs of the Rodin sculptures have lost their surface textures which express the nuances of what the artist had intended. https://news.stanford.edu/2020/07/20/makes-rodin-rodin-stanford-scholar-explains-famed-sculptors-process/
+
+
+I tried three methods of 3D scanning my plastiline sculpture of my ear and varying results.
+
+<img src="01_3D_StarkEarPhoto_Stark_July6.jpg" alt="My ear" class="photo">
+ <figcaption>Firstly, I needed a photo of my ear. I took one with my iPhone</figcaption>
+
+ <img src="02_3D_PlastilineEar_Stark_July6.jpg" alt="My plastiline ear" class="photo">
+ <figcaption>I took a cardboard base I was not using from my kinetic sculpture and used it as my platform to build the ear.</figcaption>
+
+<img src="03_3D_PlastilineEarSide_Stark_July6.jpg" alt="Plastiline ear from side." class="photo">
+ <figcaption>Here is the side view of the ear so you can see the relief. This design would be challenting to create using a subtractive method of manufacturing due to its irregular curves and surface texture.</figcaption>
+
+I thought this ear sculpture would test out how well the 3D scan is able to capture hte surface textures and also the topology of hte sculpture. 
+
+For the first two 3D scans, I used the Harvard's lab Revopoint system to scan in my ear sculpture using both the turn table and a manual scan. The results were disappointing. It may be user error, but very little of me was involved in the first automated scan. In the second manual scan, I did need to move the scanner around and perhaps there is a better technique than the one I used.
+
+ <img src="04_3D_RevopointAutoScan_Stark_July6.jpg" alt="My plastiline ear" class="photo">
+ <figcaption>Using the turntable to autoscan the ear.</figcaption>
+
+ <img src="05_3D_RevopointScanResults_Stark_July5.jpg" alt="Auto scan." class="photo">
+ <figcaption>The scan results. When the scan first started, it looked like it was off to a great start. However, over time, the system had trouble putting together the abstract terraine of the ear.</figcaption>
+
+  <img src="06_3D_RevopointManualScan_Stark_July6.jpg" alt="Manual scan" class="photo">
+ <figcaption>I then used the manual way to scan and the results were better, but still disapointing.</figcaption>
+
+   <img src="06.5_3D_PrusaSTL_Stark_July6.jpg" alt="Manual scan" class="photo">
+ <figcaption>I brought it into PrusaSlicer to see what it would look like. Quite abstract.</figcaption>
+
+ As a third try, I used an app called Polycam on my iPhone and did a scan of my ear sculpture. The first attempt, I missed a place on the back of the ear. However, second attempt turned out an impressive image. 
+
+
+  <img src="07_3D_PolycamScan_Stark_July6.jpg" alt="Polycam scan of my ear sculpture." class="photo">
+ <figcaption>Processing the photos I took of my ear sculpture which was processed by Polycam.</figcaption>
+
+  <img src="08_3D_PolycamScanEarResults_Stark_July6.jpg" alt="My plastiline ear" class="photo">
+ <figcaption>3D rendered results from the Polycam app.</figcaption>
+
+<iframe class="video" src="https://www.youtube.com/embed/pcCnA4-Dit0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+ <figcaption>3D video of my ear.</figcaption>
+
+<img src="09_3D_PolycamPrusa_Stark_July7.jpg" alt="Manual scan" class="photo">
+ <figcaption>The shape came out really well visually on the PrusaSlicer of the 3D captured using photogrammetry with the PolyCam app.</figcaption>
+
+<img src="10_3D_NottaHereIdea_Stark_July8.jpg" alt="It is notta h(ear)" class="photo">
+ <figcaption>Idea for the 3D light and sensory sculpture, "It is notta h(ear)"</figcaption>
+
+</xmp>
+
+<footer>
+      <p>   &copy; Atelier Stark 2023</p>
+</footer>
+
+
+</body>
+
+<script src="https://fablab.atelierstark.com/strapdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
+
+
+</html>
+
