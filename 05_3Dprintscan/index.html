@@ -30,30 +30,27 @@
 
 Given my foray into figurative sculptures, I thought it would be interesting to model my own ear in plastiline and then 3D scan and print it. Thought it would be a nod to Van Gogh in a way. 
 
-I was also curious to see how accurately 3D scanning and printing can be in replicating an original sculpture made of something like plaster, clay or plastalina. Robinson Foundry has an interesting video that discusses this topic. 
+I was also curious to see how accurately 3D scanning and printing can be in replicating an original sculpture made of something like plaster, clay or plastalina. 
 
-<iframe class="video" src="https://www.youtube.com/embed/rYNTua5fXxY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+In the lost wax process, which is often used for the fine arts, the original sculpture is destroyed in the process of making the mold (https://en.wikipedia.org/wiki/). Could using 3D scanning allow for the creation of accurate models that allow for bronze to be cast without impacting the original sculpture an artist worked on? Companies like Form Capture are already starting to offer services such as these (https://formcapture.com/3d-scanning-art-sculpture/). 
 
-In the lost wax process, which is often used for the fine arts process, the original sculpture is destroyed in the process of making the mold (https://en.wikipedia.org/wiki/. Could using 3D scanning allow for creation of accurate models that allow for bronze to be cast without impacting the original sculpture? Companies like Form Capture are already starting to offer services such as these (https://formcapture.com/3d-scanning-art-sculpture/). While the moulds can be used for multiple runs to create more sculptures, over time the nuanced surface textures are destroyed. A recent discussion I had was how the later runs of the Rodin sculptures have lost their surface textures which express the nuances of what the artist had intended. https://news.stanford.edu/2020/07/20/makes-rodin-rodin-stanford-scholar-explains-famed-sculptors-process/
-
-
-I tried three methods of 3D scanning my plastiline sculpture of my ear and varying results.
+I tried three methods of 3D scanning my plastiline sculpture of my ear with varying results.
 
 <img src="01_3D_StarkEarPhoto_Stark_July6.jpg" alt="My ear" class="photo">
- <figcaption>Firstly, I needed a photo of my ear. I took one with my iPhone</figcaption>
+ <figcaption>Firstly, I needed a photo of my ear. I took one with my iPhone.</figcaption>
 
  <img src="02_3D_PlastilineEar_Stark_July6.jpg" alt="My plastiline ear" class="photo">
- <figcaption>I took a cardboard base I was not using from my kinetic sculpture and used it as my platform to build the ear.</figcaption>
+ <figcaption>Then, I used a piece of cardboard as my platform to build the ear.</figcaption>
 
 <img src="03_3D_PlastilineEarSide_Stark_July6.jpg" alt="Plastiline ear from side." class="photo">
  <figcaption>Here is the side view of the ear so you can see the relief. This design would be challenting to create using a subtractive method of manufacturing due to its irregular curves and surface texture.</figcaption>
 
-I thought this ear sculpture would test out how well the 3D scan is able to capture hte surface textures and also the topology of hte sculpture. 
+I thought this ear sculpture would test out how well the 3D scan is able to capture the surface textures and also the topology of the sculpture. 
 
 For the first two 3D scans, I used the Harvard's lab Revopoint system to scan in my ear sculpture using both the turn table and a manual scan. The results were disappointing. It may be user error, but very little of me was involved in the first automated scan. In the second manual scan, I did need to move the scanner around and perhaps there is a better technique than the one I used.
 
  <img src="04_3D_RevopointAutoScan_Stark_July6.jpg" alt="My plastiline ear" class="photo">
- <figcaption>Using the turntable to autoscan the ear.</figcaption>
+ <figcaption>Using the turntable to autoscan the ear with Revopoint.</figcaption>
 
  <img src="05_3D_RevopointScanResults_Stark_July5.jpg" alt="Auto scan." class="photo">
  <figcaption>The scan results. When the scan first started, it looked like it was off to a great start. However, over time, the system had trouble putting together the abstract terraine of the ear.</figcaption>
@@ -62,7 +59,7 @@ For the first two 3D scans, I used the Harvard's lab Revopoint system to scan in
  <figcaption>I then used the manual way to scan and the results were better, but still disapointing.</figcaption>
 
    <img src="06.5_3D_PrusaSTL_Stark_July6.jpg" alt="Manual scan" class="photo">
- <figcaption>I brought it into PrusaSlicer to see what it would look like. Quite abstract.</figcaption>
+ <figcaption>I brought the STL file of the auto scan into PrusaSlicer to see what it would look like. Quite abstract.</figcaption>
 
  As a third try, I used an app called Polycam on my iPhone and did a scan of my ear sculpture. The first attempt, I missed a place on the back of the ear. However, second attempt turned out an impressive image. 
 
@@ -76,52 +73,62 @@ For the first two 3D scans, I used the Harvard's lab Revopoint system to scan in
 <iframe class="video" src="https://www.youtube.com/embed/pcCnA4-Dit0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
  <figcaption>3D video of my ear.</figcaption>
 
-<img src="09_3D_PolycamPrusa_Stark_July7.jpg" alt="Manual scan" class="photo">
- <figcaption>The shape came out really well visually on the PrusaSlicer of the 3D captured using photogrammetry with the PolyCam app.</figcaption>
+<img src="09_3D_PolycamPrusa_Stark_July7.jpg" alt="Polycam san" class="photo">
+ <figcaption>The shape came out really well visually on the PrusaSlicer of the 3D captured ear sculpture using photogrammetry with the PolyCam app.</figcaption>
 
- <a download href='./MyEar_PolyCamScanJuly6.stl'>Download the Polycam STL file of my ear.</a>
+ <a download href='./MyEar_PolyCamScanJuly6.stl'>Download the Polycam STL file of my Ear Sculpture.</a>
+
+However, I was not able to print this model as the mesh did not have any depth. I had to research how to take the output from a Polycam scan into Autodesk Fusion to make the necessary edits before generating an STL file that would print. 
 
 <img src="10_3D_NottaHereIdea_Stark_July8.jpg" alt="It is notta h(ear)" class="photo">
- <figcaption>Idea for the 3D light and sensory sculpture, "It is notta h(ear)"</figcaption>
+ <figcaption>During this time, I also had an idea for the 3D light and sensory sculpture using the ear, "It is notta h(ear)". It is a bit of a play on Magritte's "This is no a pipe" painting. I thought in the modern context of digital fabrication, it brings more questions of what is considered real and what is a replica. Also the way we communicate and understand each others realities.</figcaption>
 
 <img src="10_02_ScantoFusion_Stark_July9.jpg" alt="It is notta h(ear)" class="photo">
- <figcaption>tbd</figcaption>
+ <figcaption>I imported the STL file from Polycam into Fusion as a mesh</figcaption>
 
  <img src="10_03_ScantoFusionMeshScale_Stark_July9.jpg" alt="It is notta h(ear)" class="photo">
- <figcaption>tbd</figcaption>
+ <figcaption>I used the "Scale Mesh" function to factor the sculpture by 1000x in order to make it right size.</figcaption>
 
  <img src="10_04_3D_ScantoFusion_CropCardboard.jpg" alt="It is notta h(ear)" class="photo">
- <figcaption>Idea for the 3D light and sensory sculpture, "It is notta h(ear)"</figcaption>
+ <figcaption>Using the "Plane Cut" function, I was able to remove the cardboard backing as for the sculpture, I just wanted the ear to be printed in PLA. The rest of the sculpture will be made of wood.</figcaption>
 
  <img src="10_05_3D_CreateShellThickness_Stark_July9.jpg" alt="It is notta h(ear)" class="photo">
- <figcaption>tbd</figcaption>
+ <figcaption>I used the "Shell" capability to increase the thickness of the mesh so it can be printed. </figcaption>
 
  <img src="10_06_3D_RepairHolesinMesh_Stark_July9.jpg" alt="It is notta h(ear)" class="photo">
- <figcaption>Idea for the 3D light and sensory sculpture, "It is notta h(ear)"</figcaption>
+ <figcaption>"Repair" was used to enclose the back of the sculpture.</figcaption>
 
  <img src="10_07_3D_EditEarSculptureforPrinting_Stark_July9.jpg" alt="It is notta h(ear)" class="photo">
- <figcaption>tbd</figcaption>
+ <figcaption>Results of the ear in Fusion for printing. Exported this to STL.</figcaption>
 
+<a download href='./EarSculpture_Stark_July9.stl'>Download the STL ready to print version of my Ear Sculpture.</a>
 
  <img src="10_08_3D_AnotherWayCreateBody_Stark_July9.jpg" alt="It is notta h(ear)" class="photo">
- <figcaption>TBD</figcaption>
+ <figcaption>As an aside, I also tried a different method by creating faces for the sculpture and then trying to use "Thicken" to create a shell. This used a lot of processing power and I was not able to get it to work. Maybe something others want to try or give advice on.</figcaption>
 
  <img src="10_09_3D_PrusaSlicerEarSculpture_Stark_July9.jpg" alt="It is notta h(ear)" class="photo">
- <figcaption>tbd</figcaption>
+ <figcaption>Imported the STL file into PrusaSlicer.</figcaption>
 
  <img src="10_10_PrusaSlicerSettingsforEarSculpture.jpg" alt="It is notta h(ear)" class="photo">
- <figcaption>tbd</figcaption>
+ <figcaption>The setting were adjusted to allow for organic supports. Also had trouble exporting to gcode until supports were put everywhere. </figcaption>
 
  <img src="10_11_3D_PrusaSlicerSlicedEarSculpture_Stark_July9.jpg" alt="It is notta h(ear)" class="photo">
- <figcaption>tbd</figcaption>
+ <figcaption>Finally, gcode exported and ready for the printer!</figcaption>
+
+I am not able to post the GCODE here as the file turned out to be ~160MB large and will require over 40 hours to print. Yikes!
+
+<img src="10_12_PrusaSPrintingMyEarSculpture_Stark_July9.jpg" alt="It is notta h(ear)" class="photo">
+ <figcaption>Finally, gcode exported and ready for the printer!</figcaption>
 
 
 <img src="10.1_3D_ScanofClint_Stark_July8.jpg" alt="3D Scan of Clint" class="photo">
  <figcaption>As an aside: I couldn't help but also take a scan of Clint. Super impressed (and a little creeped out) about how accurate and detailed the scan turned out. I could see something like this being useful, amongst other more practical applications, to be used as a model to sculpt from. Clint would never hold this still for this long.</figcaption>
 
+ <br>
+
  <h4>3D Printing: Balloon Dog, Scissors and a Brush</h4>
 
- Besides creating a 3D models from using various scanners, I also explored a few 3D prints.
+ Besides creating 3D models from using various 3D scanners, I also explored a few 3D prints from other workflows.
 
  I first tried to print a 3D model from the Printables website. I selected a balloon dog, inspired and popularized by artist, Jeff Koons. You can find the 3D model here: https://www.printables.com/model/406281-balloon-dog. 
 
@@ -138,7 +145,7 @@ For the first two 3D scans, I used the Harvard's lab Revopoint system to scan in
 
 
   <img src="15_3D_ScissorsPrusaSlicer_Stark_July7.jpg" alt="Prusa slicer of my one piece scissors." class="photo">
- <figcaption>Next, I decided to print a 3D CAD drawing I created. In this case, the scissors. I started with trying to print the pair of scissors as one piece. I brought it into Prusa Slicer as an stl exported from Autodesk Fusion and turned it into gcode for the printer.</figcaption>
+ <figcaption>Next, I decided to print a 3D CAD drawing I created. In this case, the scissors from an earlier exploration. I started with trying to print the pair of scissors as one piece. I brought it into Prusa Slicer as an STL exported from Autodesk Fusion and turned it into gcode for the printer.</figcaption>
 
   <img src="14_3D_ScissorsPrintOnePiece_Stark_July6.jpg" alt="Scissors in one piece." class="photo">
  <figcaption>Results of my 3D print of the scissors as one piece.</figcaption>
@@ -150,7 +157,6 @@ For the first two 3D scans, I used the Harvard's lab Revopoint system to scan in
   <img src="17_3D_PrusaSlicerScissorsSeparate_02_Stark_July7.jpg" alt="One part of scissors." class="photo">
  <figcaption>New stl file in PrusaSlicer with only one part of the pair of scissors.</figcaption>
 
- --- NEED to ADD RESULTS
 
   <img src="18_3D_BrushPrusaSlicer_Stark_July7.jpg" alt="Brush import into Prusa Slicer." class="photo">
  <figcaption>Next up is the brush I had modified earlier. When I imported it into PrusaSlicer, it appeared standing up. This was when I realized that designing something in CAD to be printed, one may need to consider the best way to print it. Like in the 2D world where you had to consider if your paper was in portrait or landscape mode.</figcaption>
@@ -171,7 +177,7 @@ For the first two 3D scans, I used the Harvard's lab Revopoint system to scan in
  <figcaption>Back of the brush. The supports left a rough surface.</figcaption>
 
 
-Overall, this experience of trying to bring 3D modeled items shows there are considerations in design of objects if one is planning to 3D print them. The more parts of the object need to be suspended, the great the supports and challenges of being able to print it on something like a Prusa printer. Besides altering one's design, one can also use a different 3D printing method such as Form Labs that uses water to support and suspend an object as it is printing. It is a more expensive process, but for different requirements, may be worth it. 
+Overall, this experience of trying to bring 3D modeled items shows there are considerations in the design of objects if one is planning to 3D print them. The more parts of the object need to be suspended, the great the supports and challenges of being able to print it on something like a Prusa printer. Besides altering one's design, one can also use a different 3D printing method such as FormLabs that uses water to support and suspend an object as it is being printed. There are also a greater variety of materials that can be used. It is a more expensive process, but for different requirements, may be an approach that is worth it. 
 
 </xmp>
 
