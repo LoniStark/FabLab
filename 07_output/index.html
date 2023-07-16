@@ -73,9 +73,54 @@ For the code, I also looked at the example. I installed the TMRpcm library (http
   <figcaption>Also needed to convert the audio file I recorded as a voice memo on my iPhone to 8 bit WAV file. Great resource provided by the video tutorial for this here: https://audio.online-convert.com/convert-to-wav. </figcaption>
 
 
-Finally, while there were circuit diagrams for hooking up the transister. I found this page to read more about the BD139 transister: https://www.hackster.io/akarsh98/transistor-basics-bd139-bd140-power-transistor-tutorial-5e112a
+Finally, while there were circuit diagrams for hooking up the transister. I found this page to read more about the BD139 transister: https://www.youtube.com/watch?v=vn54E2CsT74
+
+I got a micro SD card, transferred over my "Ear.wav" file and loaded the SD card into the reader to test. It was hard to tell which was the left and right pin of the transister so I had to play around with it until I go it working. I could hear the faint sound of the wave file coming from the speakers. 
+
+<iframe class="video" src="https://www.youtube.com/embed/L_BR0iT8bMo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+ <figcaption>The sound is so faint that the iPhone's audio recording didn't even pick up the speakers.</figcaption>
 
 
+Various options were tried to increase the volume including:
+
+<ul>
+  <li>Adding an ampliflier instead of the transister. This did not make the sound louder.</li>
+  <li>Increasing the power to the amplifier with a 9V power source. This made the volume slightly louder but not by much.</li>
+</ul>
+
+I'm going to continue to look for ways to increase the volume, including checking the various components.
+
+
+Now that I have the speaker kind of working, I realize that with one input device and potentially three output devices, managing the I/O pins and ensuring adequate power whether plugged in or using a battery becomes a consideration. 
+
+I got it working but the audio track is playing at a very low volume when set at "5". Not sure if it is because I don't have the circuit soldered together or because the power going into the speaker and transister are not correct?
+
+
+Components and Power Requirements:
+
+<ul>
+<li>Gikfun Speakers: 3W, 4 ohm </li>
+<li>Micro SD TF Card Adapter Reader: can interface level is 5V or 3.3V</li>
+<li>Ultrasonic Distance 5V power, 0V Ground</li>
+<li>BTF-Lighting WS2812B, individually addressable smart RGB LED Pixel: DC5V power supply (https://www.amazon.com/gp/product/B01DC0J3UM/)</li>
+</ul>
+
+<br>
+
+In terms of Digital input/output pins:
+
+<ul>
+    <li>13: SD Card SCK</li>
+    <li> 12: SD Card MISO</li>
+    <li>-11: SD Card MOSI</li>
+    <li>4: SC Card CS</li>
+    <li>-9 : Transister</li>
+    <li>-10: Ultrasonic Trig Pin</li>
+    <li>8: Ultasponic Echo Pin</li>
+    <li>7 : Buzzer Pin</li>
+    <li>-6: LED Pin</li>
+
+</ul>
 
 
 </xmp>
