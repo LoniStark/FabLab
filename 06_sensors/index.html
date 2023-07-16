@@ -22,8 +22,137 @@
 
 <br> 
 
-### Sensors
+<h4>Sensors</h4>
 <br>
+
+There are several sensors that I will need for my ear sculpture and my final home garden project. 
+
+"It is notta h(ear)" Sculpture
+
+For this sculpture, I want it to respond in a few ways based on the proximity of a viewer. For this, I used an ultrasonic distance sensor (HC-SR04). I found the datasheet on it and instructions on how to use it from two great sources: Sparkfun (https://www.sparkfun.com/products/15569) and How To Mechantronics (https://howtomechatronics.com/tutorials/arduino/ultrasonic-sensor-hc-sr04/).
+
+Based on the data sheet, this sensor should detect from 2 cm to 400 cm which is well within the range needed for this application. There are 4 pins to this device: the power (ACC), ground (GND), trigger (TRIG) and receive (ECHO). The latter two pins are connected to digital input pins 9 and 10 in the arduino board. This component needs 5V which means I am going to need a 4 AA battery source.
+
+I was impressed with the accuracy of the measurements. However, I found it was not within the accuracy ranges specified of 3mm. 
+
+Here is a table of measurements taken for the near ranges. The distance with ruler was from the tip of the projected circles of the ultrasonic sensors. 
+
+<img src="01_Sensors_ProximitySensorCalibration_Stark_July12.jpg" class="photo" alt="Front View">
+  <figcaption>Set up for the testing of the ultrasonic distance sensor for small distance ranges.</figcaption>
+
+ <table>
+  <tr>
+    <th>Distance (w/Ruler)
+    (cm)</th>
+    <th>Output Value
+    (cm) </th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>2</td>
+  </tr>
+    <tr>
+    <td>3</td>
+    <td>2</td>
+  </tr>
+    <tr>
+    <td>4</td>
+    <td>3</td>
+  </tr>
+    <tr>
+    <td>5</td>
+    <td>4</td>
+  </tr>
+    <tr>
+    <td>6</td>
+    <td>5</td>
+  </tr>
+    <tr>
+    <td>7</td>
+    <td>6</td>
+  </tr>
+    <tr>
+    <td>8</td>
+    <td>7</td>
+  </tr>
+    <tr>
+    <td>9</td>
+    <td>8</td>
+  </tr>
+    <tr>
+    <td>10</td>
+    <td>9</td>
+  </tr>
+    <tr>
+    <td>11</td>
+    <td>10</td>
+  </tr>
+    <tr>
+    <td>12</td>
+    <td>11</td>
+  </tr>
+    <tr>
+    <td>13</td>
+    <td>12</td>
+  </tr>
+    <tr>
+    <td>14</td>
+    <td>13</td>
+  </tr>
+    <tr>
+    <td>15</td>
+    <td>14</td>
+  </tr>
+    <tr>
+    <td>16</td>
+    <td>15</td>
+  </tr>
+    <tr>
+    <td>17</td>
+    <td>16</td>
+  </tr>
+    <tr>
+    <td>18</td>
+    <td>17</td>
+  </tr>
+    <tr>
+    <td>19</td>
+    <td>18</td>
+  </tr>
+    <tr>
+    <td>20</td>
+    <td>19</td>
+  </tr>
+<tr>
+    <td>30</td>
+    <td>29</td>
+  </tr>
+</table> 
+
+
+Very little calibration was needed for this. 
+
+I also designed the base for the ear sculpture as well with this component integrated. I was going to put the output speaker device on the front but decided against this from an aesthetic perspective. Instead, will look to put the speakers on the sides of the sculpture.
+
+<img src="02_Sensor_ProximitySensorinSculpture_Stark_July15.jpg" class="photo" alt="Front View">
+  <figcaption>Updated the sculpture's rectangle base with the holes for the proxmity sensor.</figcaption>
+
+
+In terms of where I wanted to set the different actions of the sculpture, I wanted to make it based on our own sense of personal space. A good explanation of proxemics is on Science of the People (https://www.scienceofpeople.com/proxemics/). Personal space has come into greater public awareness during and since the pandemic. For this sculpture, I'll set the distance sensing ranges based on teh 4 major proxemic zones defined by anthropologist Edward Hall in the 1960s:
+
+- intimate space: 0 - 45 cm 
+- personal space: 30 cm - 122 cm 
+- social space: 122 cm - 366 cm
+- public space: 366 cm +
+
+Given the overlap between intimate and personal space, I'll perhaps define a hard boundarly or in the borders of each range provide some oscillation between the output from one and the other which mimics the variability in real life. 
+
+
+Admittedly, while a cool aspect of the ear sculpture, it was not a very interesting calibration exercise. 
 
 <h4>Hot or Cold? Light or Dark?</h4>
 
@@ -105,60 +234,6 @@ https://www.instructables.com/Photoresistors/
 Soil Moisture Calibration
 
 
-
-Ultrasonic Distance Sensor
-
-https://www.sparkfun.com/products/15569
-
-- 2 cm - 400 cm (4 m)
-- ranging accuracy 3 mm
-- There are only four pins that you need to worry about on the HC-SR04: VCC (Power), Trig (Trigger), Echo (Receive), and GND (Ground).
-- need 5V
-
-
-https://howtomechatronics.com/tutorials/arduino/ultrasonic-sensor-hc-sr04/
-
-Hooked it up and checked out distances by putting an obstruction at different distances from the sensor.
-
-maybe...At first I thought the measurements from the sensor to be off by about 1 cm. Then I realized that this was a measurement accounting for the projection of the sensor. 
-
-I found it to be fairly accurate.
-
-- 1 cm , 2 cm
-- 2 cm , 2 cm
-- 3, 2 cm
-- 4, 3 cm
-- 5, 4 cm
-- 6 cm, 5 cm
-- 7 cm, 7 cm
-- 8 , 7 cm
-- 9, 8 cm
-- 10 , 9 cm
-- 11 cm, 10 cm
-- 12, 11 cm
-- 13, 12 cm
-- 14 cm, 13 cm
-- 15 cm, 14 cm
-- 16 cm, 15 cm
-- 17 cm, 16 cm
-- 18 cm, 17 cm
-- 19 cm, 18 cm
-- 20 cm, 19 cm
-- 30 cm, 29 cm
-
-
-
-
-
-- 15 cm, 14 cm
-- 19 cm, 19 cm
-
-
-
-
-Have the ultrasonic system working
-
-https://maker.pro/arduino/projects/arduino-audio-player
 
 
 

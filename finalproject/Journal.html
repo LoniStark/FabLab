@@ -142,6 +142,36 @@ https://www.instructables.com/Arduino-Tamagotchi-Clone-Digital-Pet/
 <div class="main">
 
 
+Indoor plants have been shown to improve mental wellness and environmental quality. This home plant oasis will enable people to have more house plants in their home by enabling easy monitoring, 
+
+IoT Sensors for Plants and Water
+
+For each of the IoT sensors I needed to ensure it as equiped with the necessary input sensors and also the way to communicate with the central home garden hub. For this, an ESP32-C3 board is used. 
+
+Set up this board using these instructions:
+https://how2electronics.com/getting-started-with-seeed-xiao-esp32-c3-board/
+
+
+I used it to ensure I had the dev environment set up properly.
+
+
+Sensors - using current ot measure resistance
+- challenge is moisture but also fertilizer. Also corrosion.
+
+https://www.youtube.com/watch?v=pFQaFnqpOtQ&t=2s
+
+- more or less water, discharge/charge will impact.
+
+Set up an analog read in pin D0 (also A0).
+
+Totally dry readings:
+- dry in air: 3165, 3310, 3319, 3311
+- submerged into water: 1277,1311, 1294
+
+Translate this moisture into percentage using map(); function.
+
+https://makersportal.com/blog/2020/5/26/capacitive-soil-moisture-calibration-with-arduino
+
 
 </div>
 </xmp>
