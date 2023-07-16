@@ -72,6 +72,54 @@ For the code, I also looked at the example. I installed the TMRpcm library (http
 <img src="04_Output_WaveFileConversion_Stark_July16.jpg" class="photo" alt="Initial speaker set up.">
   <figcaption>Also needed to convert the audio file I recorded as a voice memo on my iPhone to 8 bit WAV file. Great resource provided by the video tutorial for this here: https://audio.online-convert.com/convert-to-wav. </figcaption>
 
+Here is the code:
+
+<div class="box">
+  <pre>
+    <code>
+/* Speaker Test Code
+
+Uses the TMRpcm.h library. Reads a wav file from a microSD card reader and outputs to a speaker.
+
+*/
+
+#include "SD.h"
+#define SD_ChipSelectPin 4
+#include "TMRpcm.h"
+#include "SPI.h"
+
+unsigned long previousMillis = 0;
+long playTime = 3250; 
+
+TMRpcm audio;
+
+void setup() {
+  audio.speakerPin = 9;
+  Serial.begin(9600);
+  if (!SD.begin(SD_ChipSelectPin)){
+    Serial.println("SD fail.");
+    return;
+  }
+
+
+}
+
+void loop() {
+  unsigned long currentMillis = millis();
+
+ if(currentMillis-previousMillis > playTime)
+ {
+    audio.setVolume(5);
+    audio.play("EarShout.wav");
+    Serial.println("Playing ear shout");
+    previousMillis = currentMillis; 
+ }
+
+}
+
+</code>
+</pre>
+</div>
 
 Finally, while there were circuit diagrams for hooking up the transister. I found this page to read more about the BD139 transister: https://www.youtube.com/watch?v=vn54E2CsT74
 
@@ -90,11 +138,18 @@ Various options were tried to increase the volume including:
 
 I'm going to continue to look for ways to increase the volume, including checking the various components.
 
+After swapping out some of the components, I finally decided to try recording a version of the statement with me shouting into my iPhone. This worked!
+
+<iframe class="video" src="https://www.youtube.com/embed/ONcgT1hW0ZQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+ <figcaption>Can't believe I got this working. Super cool. Sometimes the solution is the simpliest paft of the puzzle. In this case, I needed to speak way louder into the original recording. I'll work on the sound design later. For now, it technical works!</figcaption>
+
 
 Now that I have the speaker kind of working, I realize that with one input device and potentially three output devices, managing the I/O pins and ensuring adequate power whether plugged in or using a battery becomes a consideration. 
 
 I got it working but the audio track is playing at a very low volume when set at "5". Not sure if it is because I don't have the circuit soldered together or because the power going into the speaker and transister are not correct?
 
+
+SEEMS SAME CHALLENGE: https://forum.arduino.cc/t/speaker-too-quiet/1056124/7
 
 Components and Power Requirements:
 
