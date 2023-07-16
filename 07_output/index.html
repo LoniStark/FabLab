@@ -22,10 +22,58 @@
 
 <br> 
 
-### Sensors
+<h4>Ear Sculpture: Responding with visual and auditory actions</h4>
 <br>
 
-<h4>Sensing...</h4>
+With the ultrasonic distance input sensor in place, I wanted to set up output responses from the ear sculpture with visual lighting and sound. 
+
+For the first part of this, since the speaker components (micro SD card adaptor, transister and speaker) were on order, I decided to start with the led lights and a buzzer proxy for the sound component. I decided to keep the proxmity sensor in place so that I could test out different distances and observe output changes. I wanted to get the mechanics working before I thought about the experience of the viewer as they approached the sculpture from different distances.
+
+The output devices, led light strip and buzzer, were hooked up to the arduino board based on the instructions for the two devices. I then set up the if/else logic to trigger different actions based on distance measured by the input device. For this test, I set up small intervals so I didn't need to move out 4 feet everytime I wanted to test a particular action.
+
+A few observations. With the led light strip I had, it was pretty easy to configure for red and green lights. However, the blue light was super faint. While I know that red require the least power, I was surprised at how weak the blue light was. Secondly, the buzzer is super annoying, even at varying tones to play a music track. I will be happy to get the speaker audio set up. 
+
+<iframe class="video" src="https://www.youtube.com/embed/BRFcyrs1mYM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<figcaption>Buzzer output hooked up to an oscilloscope.</figcaption>
+
+<iframe class="video" src="https://www.youtube.com/embed/TZ8FEMkzY6s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<figcaption>Demo of the output actions based on different distances as recorded by the ultrasonic distance sensor.</figcaption>
+
+Now that I had the output devices hooked up, I took some time to clean up my code and turn the different devices into classes. Here is the code. INSERT CODE
+
+My speaker components came in so I hooked up the components. I did realize I missed getting a micro SD card but thought I could set up the rest of the system. Since this is the first time I am trying to do this, I decided to get this speaker working on its own before incorporating it into my overall circuit. 
+
+As resources, I mainly used these two resources:
+<ul>
+  <li>https://www.engineersgarage.com/arduino-audio-player/#:~:text=Arduino%20has%20PWM%20gpio's.,we%20can%20hear%20the%20audio </li>
+  <li>Video: https://www.youtube.com/watch?v=6DRayPCqK04</li>
+<ul>
+
+Per the videos, I have:
+<ul>
+  <li>Arduino Uno Rev 3 board</li>
+  <li> Micro SD TF Card Adapter</li>
+  <li>BD 139 transister</li>
+  <li>4 Ohm 3W full range audio speaker stereo</li>
+</ul>
+
+<img src="01_Output_LEDandBuzzer_Stark_July14.jpg" class="photo" alt="LED and buzzer output set up.">
+  <figcaption>Phase one set up with buzzer as proxy for audio speaker. Also need to rethink the LEDs as these will not generate the effect I want to light up the ear sculpture shell.</figcaption>
+
+<img src="02_Output_InitialSpeakerSetup_Stark_July16.jpg" class="photo" alt="Initial speaker set up.">
+  <figcaption>Hooked up all the different devices for the speaker set up. I am missing the micro SD card at the moment...</figcaption>
+
+
+For the code, I also looked at the example. I installed the TMRpcm library (https://github.com/TMRh20/TMRpcm) which was accessible via the Arduino IDE library which made this much easier.
+
+<img src="03_Output_TMRpcmLibraryInstall_Stark_July16.jpg" class="photo" alt="Initial speaker set up.">
+  <figcaption>Install of the TMRpcm library in Arduino IDE.</figcaption>
+
+<img src="04_Output_WaveFileConversion_Stark_July16.jpg" class="photo" alt="Initial speaker set up.">
+  <figcaption>Also needed to convert the audio file I recorded as a voice memo on my iPhone to 8 bit WAV file. Great resource provided by the video tutorial for this here: https://audio.online-convert.com/convert-to-wav. </figcaption>
+
+
+Finally, while there were circuit diagrams for hooking up the transister. I found this page to read more about the BD139 transister: https://www.hackster.io/akarsh98/transistor-basics-bd139-bd140-power-transistor-tutorial-5e112a
 
 
 
