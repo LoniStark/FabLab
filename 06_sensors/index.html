@@ -23,117 +23,200 @@
 <br> 
 
 <h4>Sensors</h4>
+There are several sensors that I will need for my ear sculpture and my final home garden project. <br>
 <br>
 
-There are several sensors that I will need for my ear sculpture and my final home garden project. 
+<h5>"It is notta h(ear)" Sculpture: Ultrasonic Distance Sensor to Calculate Viewer Distance</h5>
 
-"It is notta h(ear)" Sculpture
 
 For this sculpture, I want it to respond in a few ways based on the proximity of a viewer. For this, I used an ultrasonic distance sensor (HC-SR04). I found the datasheet on it and instructions on how to use it from two great sources: Sparkfun (https://www.sparkfun.com/products/15569) and How To Mechantronics (https://howtomechatronics.com/tutorials/arduino/ultrasonic-sensor-hc-sr04/).
 
-Based on the data sheet, this sensor should detect from 2 cm to 400 cm which is well within the range needed for this application. There are 4 pins to this device: the power (ACC), ground (GND), trigger (TRIG) and receive (ECHO). The latter two pins are connected to digital input pins 9 and 10 in the arduino board. This component needs 5V which means I am going to need a 4 AA battery source.
-
-https://nerdyelectronics.com/how-to-improve-readings-of-ultrasonic-sensor-temperature-and-humidity-compensation/
-
-I was impressed with the accuracy of the measurements. However, I found it was not within the accuracy ranges specified of 3mm. 
+Based on the data sheet, this sensor should detect from 2 cm to 400 cm which is well within the range needed for this application. There are 4 pins to this device: the power (ACC), ground (GND), trigger (TRIG) and receive (ECHO). The latter two pins are connected to digital pins 10 and 6 in the arduino board. This component needs 5V which means I am going to need a 4 AA battery source.
 
 Here is a table of measurements taken for the near ranges. The distance with ruler was from the tip of the projected circles of the ultrasonic sensors. 
 
 <img src="01_Sensors_ProximitySensorCalibration_Stark_July12.jpg" class="photo" alt="Front View">
   <figcaption>Set up for the testing of the ultrasonic distance sensor for small distance ranges.</figcaption>
 
+  Here is the table of data collected across two trials.
+
  <table>
   <tr>
     <th>Distance (w/Ruler)
     (cm)</th>
     <th>Output Value
+    (ms) </th>
+    <th>Calculated Distance
     (cm) </th>
   </tr>
   <tr>
     <td>1</td>
-    <td>2</td>
+    <td>187, 185</td>
+     <td>3, 3</td>
   </tr>
   <tr>
     <td>2</td>
-    <td>2</td>
+    <td>173, 177</td>
+    <td>2, 2</td>
   </tr>
     <tr>
     <td>3</td>
-    <td>2</td>
+    <td>198, 198</td>
+    <td>3, 3</td>
   </tr>
     <tr>
     <td>4</td>
-    <td>3</td>
+    <td>212,209</td>
+    <td>3, 3</td>
   </tr>
     <tr>
     <td>5</td>
-    <td>4</td>
+    <td>261, 261</td>
+    <td>4, 4</td>
   </tr>
     <tr>
     <td>6</td>
-    <td>5</td>
+    <td>320, 324</td>
+    <td>5, 5</td>
   </tr>
     <tr>
     <td>7</td>
-    <td>6</td>
+    <td>401, 401</td>
+    <td>6, 6</td>
   </tr>
     <tr>
     <td>8</td>
-    <td>7</td>
+    <td>414, 418</td>
+    <td>7, 7</td>
   </tr>
     <tr>
     <td>9</td>
-    <td>8</td>
+    <td>467, 442</td>
+    <td>7, 7</td>
   </tr>
     <tr>
     <td>10</td>
-    <td>9</td>
+    <td>544, 572</td>
+    <td>9, 9</td>
   </tr>
     <tr>
     <td>11</td>
-    <td>10</td>
+    <td>628, 607</td>
+    <td>10, 10</td>
   </tr>
     <tr>
     <td>12</td>
-    <td>11</td>
+    <td>666, 642</td>
+    <td>11, 10</td>
   </tr>
     <tr>
     <td>13</td>
-    <td>12</td>
+    <td>744, 743</td>
+    <td>12, 12</td>
   </tr>
     <tr>
     <td>14</td>
-    <td>13</td>
+    <td>792, 764</td>
+    <td>13, 12</td>
   </tr>
     <tr>
     <td>15</td>
-    <td>14</td>
+    <td>828, 828</td>
+    <td>14, 14</td>
   </tr>
     <tr>
     <td>16</td>
-    <td>15</td>
+    <td>881, 884</td>
+    <td>15, 15</td>
   </tr>
     <tr>
     <td>17</td>
-    <td>16</td>
+    <td>947, 943</td>
+    <td>16, 16</td>
   </tr>
     <tr>
     <td>18</td>
-    <td>17</td>
+    <td>1010, 1010</td>
+    <td>17, 17</td>
   </tr>
     <tr>
     <td>19</td>
-    <td>18</td>
+    <td>1083, 1083</td>
+    <td>18, 18</td>
   </tr>
     <tr>
     <td>20</td>
-    <td>19</td>
+    <td>1118, 1139</td>
+    <td>19, 19</td>
+  </tr>
+  <tr>
+    <td>25</td>
+    <td>1419, 1426</td>
+    <td>24, 24</td>
   </tr>
 <tr>
     <td>30</td>
-    <td>29</td>
+    <td>1716, 1727</td>
+    <td>29, 29</td>
+  </tr>
+  <tr>
+    <td>35</td>
+    <td>2042, 2042</td>
+    <td>34, 34</td>
+  </tr>
+  <tr>
+    <td>40</td>
+    <td>2301, 2311</td>
+    <td>39, 39</td>
+  </tr>
+  <tr>
+    <td>45</td>
+    <td>2601, 2640</td>
+    <td>44, 45</td>
+  </tr>
+   <tr>
+    <td>50</td>
+    <td>2901, 2886</td>
+    <td>49, 49</td>
+  </tr>
+  <tr>
+    <td>55</td>
+    <td>3197, 3256</td>
+    <td>54, 55</td>
+  </tr>
+ 
+  <tr>
+    <td>60</td>
+    <td>3438, 3475</td>
+    <td>58, 59</td>
+  </tr>
+  <tr>
+    <td>65</td>
+    <td>3780, 3759</td>
+    <td>65, 64</td>
+  </tr>
+  <tr>
+    <td>70</td>
+    <td>4036, 4019</td>
+    <td>68, 68</td>
+  </tr>
+  <tr>
+    <td>75</td>
+    <td>4306, 4306</td>
+    <td>73, 73</td>
+  </tr>
+  <tr>
+    <td>80</td>
+    <td>4592, 4641</td>
+    <td>78, 78</td>
+  </tr>
+  <tr>
+    <td>85</td>
+    <td>4883, 4951</td>
+    <td>84, 84</td>
   </tr>
 </table> 
+
 
 Here is the code:
 
@@ -141,26 +224,28 @@ Here is the code:
   <pre>
     <code>
 
+
 /*
 
 For the Ear Sculpture
 
-A proximity sensor at the front of the ear sculpture. Will sense how lose someone is to the sculpture. 
-Based on this there will be various output. 
+A proximity sensor at the front of the ear sculpture. Will sense how close someone is to the sculpture. 
+Based on this there will be various output which will be in a subsequent code version.
 
 */
 
-
-const int trigPin = 9;
-const int echoPin = 10;
+//set the digital input and out pin numbers on the board
+const int trigPin = 10;
+const int echoPin = 6;
 
 // defines variables
 long duration;
 int distance;
-
+long waitTime = 4000; 
 unsigned long previousMillis = 0;
 
-void setup() {
+void setup() 
+{
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
 
@@ -170,6 +255,9 @@ void setup() {
 
 void loop() {
 
+unsigned long currentMillis = millis();
+if(currentMillis-previousMillis > waitTime)
+ {
   // Clears the trigPin
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -181,6 +269,23 @@ void loop() {
 
   // Reads the echoPin, returns the sound wave travel time in microseconds
   duration = pulseIn(echoPin, HIGH);
+  Serial.print("Duration: ");
+  Serial.print(duration);
+  Serial.println (" ms");
+
+  previousMillis = currentMillis; 
+ }
+}
+ 
+ </code>
+</pre>
+</div>
+
+Based on the formula for the speed of sound and time, one can convert the time into a distance. Here is the code for this.
+
+<div class="box">
+  <pre>
+    <code>
 
   // Calculating the distance
   distance = duration * 0.034 / 2;
@@ -188,15 +293,39 @@ void loop() {
   // Prints the distance on the Serial Monitor
   Serial.print("Distance: ");
   Serial.print(distance);
-  Serial.println (" cm.");
+  Serial.println (" cm");
 
-}
-</code>
+  </code>
 </pre>
 </div>
 
+When you look at the values of distance against those calibrated with the ruler, I was impressed with the accuracy of the measurements. However, I found it was not within the accuracy ranges specified of 3mm. 
 
-Very little calibration was needed for this. 
+This may be due to a number of factors with the largest factor being temperature and humidity. Here is a great discussion on this topic: https://nerdyelectronics.com/how-to-improve-readings-of-ultrasonic-sensor-temperature-and-humidity-compensation/. As noted in this article, both temperature and humidity are positively correlated with sound speed. Thus as it gets hotter and more humid, without any adjustments, the formula above would underestimate the distance. 
+
+
+Given Harvard's lab on the day the tests were conducted was 70.4 degrees fahrenheit (21.3 degress celcius), we'll calculate the conversion in the table for the different values. The speed of sound at this temperature is higher than the 0.034 cm/µs used at a value of 0.03438 cm/µs. I didn't measure the humidity in the lab so I can not factor this into the equation. However, given the results measured, one could infer what may be the humidity. To compensate for both factors, as noted in the article, we could use a DHT11 or DHT22 temperature and humity sensor. For my auditory sculpture, I don't need this level of accuracy and the form, but if I were building a self-driving robot, this level of accuracy would be needed. 
+
+<img src="03_sensor_datafromultrasonic_Stark_July17.jpg" class="photo" alt="data collection from ultrasonic distance sensor">
+  <figcaption>Spreadsheet of data collected and calculations accounting for the temperature in the lab.</figcaption>
+
+<img src="04_Sensor_ScatterPlotofData_Stark_July17.jpg" class="photo" alt="Scatter plot">
+  <figcaption>Graph of the data.</figcaption>
+
+<img src="05_Sensor_Trendline2_Stark_July17.jpg" class="photo" alt="Trend line of the data">
+  <figcaption>Trendline and linear equation for the data.</figcaption>
+
+This equation is given x, find y. So to find x (distance) we would need: (y-30.379)/53.65. I then decided to drop the 1 cm reading and the formula for distance became: 
+<ul>
+  <li>(y-30.379)/53.65</li>
+  <li>(y-27.5)/53.714</li>
+</ul>
+
+So took the equation: (y-28.94)/53.682. This was used to calculate updated values of distance.
+
+<img src="06_Sensor_TablewithFormulaValues_Stark_July17.jpg" class="photo" alt="Trend line of the data">
+  <figcaption>Table updated with distance values based on the formula. If I were to do it again, I would take more data inputs at longer distances.</figcaption>
+
 
 I also designed the base for the ear sculpture as well with this component integrated. I was going to put the output speaker device on the front but decided against this from an aesthetic perspective. Instead, will look to put the speakers on the sides of the sculpture.
 
@@ -204,7 +333,7 @@ I also designed the base for the ear sculpture as well with this component integ
   <figcaption>Updated the sculpture's rectangle base with the holes for the proxmity sensor.</figcaption>
 
 
-In terms of where I wanted to set the different actions of the sculpture, I wanted to make it based on our own sense of personal space. A good explanation of proxemics is on Science of the People (https://www.scienceofpeople.com/proxemics/). Personal space has come into greater public awareness during and since the pandemic. For this sculpture, I'll set the distance sensing ranges based on teh 4 major proxemic zones defined by anthropologist Edward Hall in the 1960s:
+In terms of where I want to set the different actions of the sculpture, I wanted to make it based on our own sense of personal space. A good explanation of proxemics is on Science of the People (https://www.scienceofpeople.com/proxemics/). Personal space has come into greater public awareness during and since the pandemic. For this sculpture, I'll set the distance sensing ranges based on teh 4 major proxemic zones defined by anthropologist Edward Hall in the 1960s:
 
 <ul>
 <li>intimate space: 0 - 45 cm </li>
@@ -215,85 +344,14 @@ In terms of where I wanted to set the different actions of the sculpture, I want
 
 Given the overlap between intimate and personal space, I'll perhaps define a hard boundarly or in the borders of each range provide some oscillation between the output from one and the other which mimics the variability in real life. 
 
-
-Admittedly, while a cool aspect of the ear sculpture, it was not a very interesting calibration exercise. 
-
+You can find the rest of the making of this ear sculpture will be completed in the Output section.
 <br>
 <br>
 
-<h4>Hot or Cold? Light or Dark?</h4>
+<h5>Hot or Cold? Light or Dark?</h5>
 
 
-Phototransister on a circuit
 
-Calibration first with 
-
-Lab light:
-- 
-
-545
-546
-546
-547
-551
-546
-546
-547
-544
-546
-543
-543
-544
-542
-544
-544
-544
-543
-543
-542
-
-iPhone Light:
-62
-58
-69
-91
-72
-73
-72
-82
-84
-87
-93
-115
-109
-77
-87
-102
-88
-106
-
-dark
-
-641
-643
-643
-642
-642
-643
-642
-643
-641
-643
-642
-643
-641
-643
-640
-640
-639
-641
-639
-641
 
 
 https://www.instructables.com/Photoresistors/
