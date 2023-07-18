@@ -84,9 +84,10 @@ Uses the TMRpcm.h library. Reads a wav file from a microSD card reader and outpu
 */
 
 #include "SD.h"
-#define SD_ChipSelectPin 4
 #include "TMRpcm.h"
 #include "SPI.h"
+
+#define SD_ChipSelectPin 4
 
 unsigned long previousMillis = 0;
 long playTime = 3250; 
@@ -171,6 +172,11 @@ In terms of Digital input/output pins:
     <li>-6: LED Pin</li>
 
 </ul>
+
+
+LED Array board
+
+http://fab.cba.mit.edu/classes/863.13/people/alice/week11.html
 
 
 </xmp>

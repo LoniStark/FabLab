@@ -348,7 +348,7 @@ You can find the rest of the making of this ear sculpture will be completed in t
 <br>
 <br>
 
-<h5>Capacitive Soil Moisture Sensor</h5>
+<h5>Home Plant Garden: Capacitive Soil Moisture Sensor</h5>
 
 For the home garden project, a key component are the connected sensors for each plant and for the water. 
 
@@ -430,6 +430,140 @@ void loop() {
 
 <img src="07_Sensors_CapacitiveSoilXiao_Stark_July15.jpg" class="photo" alt="Front View">
   <figcaption>Set up of the microcontroller and the soil moisture sensor.</figcaption>
+
+<h5>Home Plant Garden: Water Level Sensor</h5>
+
+Another component of the Home Plant Garden (HPG) is automated watering. For this, there will also need to be a sensor to detect water levels of the remote water sources around the home. As an early prototype, I wanted to create a simple capacitive sensor for detecting water levels in a container. My set up was very simple.
+
+<img src="08_Sensors_WaterCapacitiveSensorforContainer_Stark_July18.jpg" class="photo" alt="Set up.">
+  <figcaption>Set up for the recording of values from the capacitive water container sensor.</figcaption>
+
+The code I used was also simple from the sample (Note to self: need to change to a class for "WaterSensor")
+
+
+
+<div class="box">
+  <pre>
+    <code>
+
+      long result;   //variable for the result of the tx_rx measurement.
+int analog_pin = A3;
+int tx_pin = 4;
+
+void setup() {
+    pinMode(tx_pin, OUTPUT);      //Pin 4 provides the voltage step
+    Serial.begin(9600);
+}
+
+void loop() {
+    result = tx_rx();
+    Serial.print("***RESULT:");
+    Serial.println(result);
+    delay(1000);
+}
+
+
+long tx_rx(){         // Function to execute rx_tx algorithm and return a value
+                      // that depends on coupling of two electrodes.
+                      // Value returned is a long integer.
+  int read_high;
+  int read_low;
+  int diff;
+  long int sum;
+  int N_samples = 3;    // Number of samples to take.  Larger number slows it down, but reduces scatter.
+
+  sum = 0;
+
+  for (int i = 0; i < N_samples; i++){
+   digitalWrite(tx_pin,HIGH);              // Step the voltage high on conductor 1.
+   read_high = analogRead(analog_pin);     // Measure response of conductor 2.
+   delayMicroseconds(100);                 // Delay to reach steady state.
+   digitalWrite(tx_pin,LOW);               // Step the voltage to zero on conductor 1.
+   read_low = analogRead(analog_pin);      // Measure response of conductor 2.
+   diff = read_high - read_low;            // desired answer is the difference between high and low.
+   sum += diff;                            // Sums up N_samples of these measurements.
+ }
+  return sum;
+  
+}     
+</code>
+</pre>
+</div>
+
+Here are the results got calibrated against the water mL readings on the plastic cup. 
+
+<table>
+  <tr>
+    <th>Water Volume
+    (mL)</th>
+    <th>Readings from Capactive Sensor (recorded 4 values) </th>
+  </tr>
+  <tr>
+  <td>30</td>
+  <td>154, 287, 369, 727</td>
+  </tr>
+    <tr>
+  <td>50</td>
+  <td>440, 475, 329, 213</td>
+  </tr>
+
+  <tr>
+  <td>70</td>
+  <td>400, 372, 502, 570</td>
+  </tr>
+
+  <tr>
+  <td>90</td>
+  <td>560, 612, 900, 876</td>
+  </tr>
+
+  <tr>
+  <td>110</td>
+  <td>706, 727, 669, 578</td>
+  </tr>
+
+  <tr>
+  <td>130</td>
+  <td>839, 881, 721, 766</td>
+  </tr>
+
+  <tr>
+  <td>150</td>
+  <td>740, 894, 933, 1195</td>
+  </tr>
+
+  <tr>
+  <td>170</td>
+  <td>968, 995, 898, 827</td>
+  </tr>
+
+  <tr>
+  <td>190</td>
+  <td>1069, 1385, 1059, 1060</td>
+  </tr>
+
+  <tr>
+  <td>210</td>
+  <td>1072, 1305, 1416, 1134</td>
+  </tr>
+
+  <tr>
+  <td>230</td>
+  <td>1200, 1494, 1161, 1075</td>
+  </tr>
+
+</table>
+
+The readings taken across the 4 values at each increment of the calibration varied greater than I thought. Reading some of the details on capacitive sensors, I may get more accurate readings if the copper tape was submerged in the water. However, I was looking for a non-contact approach to this capacitive sensor so that it would last longer. There is variations of higher values for greater amount of water in the plastic cup. For the purposes of my project, I do not need at the mL level accuracy for the container water levels. What will be more important is how robust is this method when applied to containers of various materials and sizes. It would be nice if there was not a calibration neeed for the water containers that a garden owner has around their home. 
+
+More research is needed in these areas. A few areas I will also check out as my home plant garden project evolves: 
+
+<ul>
+<li>https://maker.pro/arduino/projects/arduino-liquid-level-meter-with-simple-homemade-sensor</li>
+<li>https://robotsbigdata.com/docs-arduino-water-sensor.html</li>
+</ul>
+
+
 
 </xmp>
 
