@@ -348,19 +348,88 @@ You can find the rest of the making of this ear sculpture will be completed in t
 <br>
 <br>
 
-<h5>Hot or Cold? Light or Dark?</h5>
+<h5>Capacitive Soil Moisture Sensor</h5>
+
+For the home garden project, a key component are the connected sensors for each plant and for the water. 
+
+For each of the IoT sensors I needed to ensure it as equiped with the necessary input sensors and also the way to communicate with the central home garden hub. For this, a Xiao ESP32-C3 board is used which supports wifi and also a capacitive soil moisture sensor v2.0
+
+I set up this board using these instructions:
+https://how2electronics.com/getting-started-with-seeed-xiao-esp32-c3-board/
+
+In an earlier exercise, I had used a soil moisture sensor based on resistive technology which had to be turned on and off in order to minimize corrosion. It is also senseitive to levesl of fertilizer according to the research I did. 
+
+In order to calibrate this sensor, I took dry readings first (3165, 3310, 3319) and then submerged into water (1277,1311, 1294). I translated the moisture into percentage using the map() function. 
+
+Translate this moisture into percentage using map(); function.
+Finally, I created a soil sensor class and runtime as a start of the soil sensor. 
+
+<div class="box">
+  <pre>
+    <code>
 
 
+/*
+Soil Moisture Sensor
+ 
+// define full range from wet to dry based on calibration of sensor completely dry and immerse in water.
+int defaultDry = 3325;
+int defaultWet = 1250;
+int moistureVal;
+unsigned long previousMillis = 0;
+long delayTime = 1000; 
+
+class SoilSensor
+{ 
+  // Class Member Variables
+  // These are initialized at start up
+  int moistPin;
+  int wet;
+  int dry;
+
+ public:
+  SoilSensor(int pin)
+  {
+    moistPin = pin;
+    wet = defaultWet;
+    dry = defaultDry; 
+
+ }
+
+void Update()
+{
+  int moistureVal = analogRead(moistPin);
+  Serial.println(moistureVal);
+  int percentageHumidity = map(moistureVal, wet, dry, 100, 0);
+  Serial.print("Moisture Percentage:");
+  Serial.print(percentageHumidity);
+  Serial.println("%");
+ }
+
+};
+
+SoilSensor soil(D0);
+ 
+// the setup function runs once when you press reset or power the board
+void setup() {
+  Serial.begin(9600);
+}
+ 
+// the loop function runs over and over again forever
+void loop() {
+   unsigned long currentMillis = millis();
+   if(currentMillis-previousMillis>delayTime){
+       soil.Update();
+        previousMillis = currentMillis;
+}
 
 
+</code>
+</pre>
+</div>
 
-https://www.instructables.com/Photoresistors/
-
-Soil Moisture Calibration
-
-
-
-
+<img src="07_Sensors_CapacitiveSoilXiao_Stark_July15.jpg" class="photo" alt="Front View">
+  <figcaption>Set up of the microcontroller and the soil moisture sensor.</figcaption>
 
 </xmp>
 
