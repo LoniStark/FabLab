@@ -56,6 +56,15 @@ header nav a {
   width: 50%;
       }
 
+/* Style for the small photo */
+.small_photo {
+  margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+      }
+
 /*Style for the video section */
 .video {
   margin-bottom: 10px;
