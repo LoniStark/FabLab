@@ -78,7 +78,7 @@ Based on my research, here are a few videos which also provided great resources 
 
 <h5>Preliminary List of Physical Components Needed</h5>
 
-Based on reading through these resources, I also started to put together the potential physical components needed. This is so I can start to get an idea of what this project may look like and if there are any major components that I need to think about sooner than later. 
+Based on reading through these resources, I also started to put together the potential physical components needed. This is so I can start to get an idea of what this project may look like and if there are any major components that I need to think about sooner than later. <br>
 
 <ul>
 <li>Microcontroller. Arduino UNO or ESP32.</li>
@@ -95,14 +95,15 @@ Based on reading through these resources, I also started to put together the pot
 <li>5mm LED</li>
 <li>battery power source</li>
 </ul>
+
 <br>
-<h5>Evolviing the Idea</h5>
+<h5>Evolving the Idea</h5>
 
 Last night, as I was falling asleep with various fragments of what I read or watched squirling in my head, an idea came to me. All the automation of home irrigation systems was about efficiency and solving the problem of going on vacation. But a hypothesis I have is that people don't just have houseplants to be efficient, it is also for fun and the joy of taking care of something else. 
 
 Novel idea - plants not just automation but nurturing. Can you still while travelling - garden virtually?
 
-I found a couple of other resources in this direction.
+I found a couple of other resources in this direction.<br>
 
 <ul>
   <li><a href="https://ellisonchair.tamu.edu/health-and-well-being-benefits-of-plants/#:~:text=Reduce%20Stress.,channel%20their%20stress%20into%20nurturing">Health and well-being benefits of plants</a></li>
@@ -110,14 +111,75 @@ I found a couple of other resources in this direction.
   <li><a href="https://www.indiegogo.com/projects/lua-the-smart-planter-with-feelings/#/">Lua, the smart planter with feelings!</a></li>
   <li><a href="https://www.indiegogo.com/projects/spot-a-smart-plant-pot-that-takes-selfies#/">SPOT - A smart plant pot that takes selfies!</a></li>
 </ul>
-
+<br>
 
 <h5>Refining the Concept</h5>
 
 
-Based on the review of other systems and products out there, the concept of the home plant garden system will enable people to
+Based on the review of other systems and products out there, I refined the concept to be a home garden system that allows people who don't have the time or the green thumb to be able to have gorgeous garden oasis in their own homes. 
 
-Indoor plants have been shown to improve mental wellness and environmental quality. This home plant oasis will enable people to have more house plants in their home by enabling easy monitoring, 
+<img src="Modish_Store_IndoorGarden.jpg" class="photo" alt="Indoor Home Garden">
+  <figcaption>A modern indoor garden oasis.</figcaption>
+
+Indoor plants have been shown to improve mental wellness and environmental quality. This home garden system make it easy and possible for people who don't have backyards and those who love plants to have a lush green oasis indoors.
+
+I also want this to be a deeply personal project, so in the end, it must past the "will I use it" test. I want this Home Garden System (HGS) to be something I will actually use to expand my collection of house plants and turn my home into a garden oasis. 
+
+Based on this concept, there are key requirements:
+<br>
+
+<ul>
+  <li><strong>Need to make it easy to set up and expand</strong>: I want to make it simple to install into the home and if a plant is removed or added, I want to have this process be seamless. The HGS should make easy so that a garden owner doesn't need think about the trouble they will have to "configure a plant" into their garden, but instead, just feel the joy of adding to the garden. </li>
+ <li><strong>Joyful</strong>: Just like the book "The Joy of Cooking", I want the HGS to be something that doesn't feel like a technology product, but something that is in the home and makes having an indoor garden more joyful. I want a garden owner to look forward to using the HGS and feel like it is part of the garden experience.</li>
+ <li><strong>Trusted</strong>: Over time, the home garden should feel like an integral part of the home and thus the HPS will become more "mission critical". I want the system to be robust and not feel or be tenuous in being able to take care of what is now a member of the family.</li>
+ <li><strong>Shared experience</strong>: I'd like it to be a shared experience with all individuals that live in the family. Instead of the home garden becoming something automated to the point of being a thoughtless part of the environment, I want it to be something that promotes mindfulness and human connection. </li>
+</ul>
+<br>
+
+<h5>HGS: Different Home Garden System Entities</h5>
+<br>
+
+I want to break down this HGS into the various conceptual components.
+
+<h6>Plants and Plant Health</h6>
+
+Let's start with the plant and plant health.
+
+I see each <strong>plant</strong> consisting of profile of information that will make sure it gets the care it needs. This include required amount of water, optimal temperature and humidity, sundlight and nurient levels. There may also be susceptibility to certain types of diseases. May be important to include where the plant was purchased and if it is part of some group of plants within the home.
+
+Plants can be organized into <strong>plant groups</strong> in the home. Either as a single plant such as a large Fiddle Leaf Fig tree or a cluster such as a little cactus garden. Why this may be important is that the water source for plants may be either a 1:1 or 1:many relationship. This may also be true of sensors like light, temperature and humidity where it does not make sense to have multiple sensors on every plant in a given location.
+
+There are also <strong>soil sensors</strong> that are associated with each plant which reports back to a central hub on the latest status of a plant. These sensors I see as a 1:1 relationship with each plant. While the sensor could check on many conditions of the soil, the minimal baseline is moisture. Following this, there could be sensors for temperature, sunlights, pests and visual appearance. I could imagine there could be varying levels of monitoring needed here between a garden-variety monstera versus a rare orchid. 
+
+<br>
+
+<h6>Plant Care</h6>
+
+There could be various actions the HGS can take such as dispensing proper nutrients or turning on a light if the plants are not getting enough sunlight. However, foundationally, want to start with water levels as this is the most frequent action that a garden owner would need to take if it were not automated. It is also the main concern if a user is off on travel for more than a week. 
+
+From a watering perspective, there are a few modes:
+<br>
+<ul>
+<li> 1. garden owner is notified and goes to plant to do the watering</li>
+<li> 2. system check and then dispenses needed water for the plant</li>
+</ul>
+
+I could see this be a system-wide option or something that is a hybrid model. Perhaps there is a hanging plant that is quite away from the others. This may be a plant the user may just decided to take care of. On the other hand, if the user is gone for a 3 week vacation, there would be a need to have it fully automated. It does make me reflect on idea that if it is set up for 3 weeks, will the owner just keep it as is and automate it as well? 
+
+If the system is to automate watering, then it needs a water source. I see this as a 1:1 or 1:many relationship between each water source (eg. container of water) and the plants. Thus was need <strong>water source</strong> which can be "manual" or "auto". For the "auto" scenario the water source needs to have water levels. I also need to think about how the water gets to each plant. Does a <strong>water pump</strong> feed each plant separately or are multiple connected in a plant group?
+
+<h6>Garden Hub</h6>
+
+Finally, with all these connected entities that take input (sensors) and outputs (actions taken), there needs to be a way for this information to be conveyed to 
+
+I, and imagine other garden owners, would not want to go to each plant/sensor to interact with them to control them. Instead, it would be done
+
+
+<h5>Overall System and Interactions Model</h5>
+<br>
+
+<h5>User Model</h5>
+<br>
 
 IoT Sensors for Plants and Water
 
