@@ -149,7 +149,7 @@ I see each <strong>plant</strong> consisting of profile of information that will
 
 Plants can be organized into <strong>plant groups</strong> in the home. Either as a single plant such as a large Fiddle Leaf Fig tree or a cluster such as a little cactus garden. Why this may be important is that the water source for plants may be either a 1:1 or 1:many relationship. This may also be true of sensors like light, temperature and humidity where it does not make sense to have multiple sensors on every plant in a given location.
 
-There are also <strong>soil sensors</strong> that are associated with each plant which reports back to a central hub on the latest status of a plant. These sensors I see as a 1:1 relationship with each plant. While the sensor could check on many conditions of the soil, the minimal baseline is moisture. Following this, there could be sensors for temperature, sunlights, pests and visual appearance. I could imagine there could be varying levels of monitoring needed here between a garden-variety monstera versus a rare orchid. 
+There are also <strong>soil sensors</strong> that are associated with each plant which reports back to a central hub on the latest status of a plant. These sensors I see as a 1:1 relationship with each plant. While the sensor could check on many conditions of the soil, the minimal baseline is moisture. Following this, there could be sensors for temperature, sunlights, pests and visual appearance. I could imagine there could be varying levels of monitoring needed here between a garden-variety monstera versus a rare orchid. The sensor would also need to ensure its own health, mainly, does it have enough battery life so that it can warn the garden owner of this. 
 
 <br>
 
@@ -172,13 +172,28 @@ If the system is to automate watering, then it needs a water source. I see this 
 
 Finally, with all these connected entities that take input (sensors) and outputs (actions taken), there needs to be a way for this information to be conveyed to 
 
-I, and imagine other garden owners, would not want to go to each plant/sensor to interact with them to control them. Instead, it would be done
+I, and imagine other garden owners, would not want to go to each plant/sensor to interact with them to control them. Instead, it would be done via a central <strong>garden hub</strong> that will communicate with all the input and output, relay messages and drive analysis from it and communicate status and relevant information to the user. The hub would also take input from the garden owner and take action as necessary. For example, in an "away" mode, the system would take over all critical automation. In this model, I don't think each of the sensors or output devices know about each other, instead, all this is managed at the hub which is the "brains" of the system and which will persist data in the cloud so that access can happen within the home or outside. More of this to be explored in the System and Interaction Model section. 
 
+
+<h6>User</h6>
+
+This includes information about the user that will in future maybe lead to more personalization. This could include: how many plants they own, how long they have been a plant parent
 
 <h5>Overall System and Interactions Model</h5>
 <br>
+In the previous section, I've covered the various entities. In this section I'll explore the way the entities would interact with each other.
 
-<h5>User Model</h5>
+I think each soil sensor and water pump should operate in a stateless model only sending and receiving data from the environment and the central hub. In this manner, I can minimize the footprint that is needed at each sensor and reduce the complexity of the system opting for a bi-directional 1:many model instead of a many:many model. Given the communication here is amongst all the sensors, outputs and brains (aka. Garden Hub), I think I will use a technology like ESP-NOW for the communication. It will offer fast transfer of information and not be reliant on a internet outtage.
+
+For the Garden Hub brains of the system, I think I will want to have enough information stored to allow for local operation even if it loses connection to the internet or power. This means having enough information in persistance and a battery source that would only be leverage if power to main system is lost. The Garden Hub would keep a record of each entity in the system (plant, soil sensor, water pump) which includes present state and historical state, communicate with each sensor for given actions and relay this information to the user and to be stored in the cloud so that a user can access the system and control even if they are away on business or vacation. The Garden Hub will also keep track of system-wide modes such as "home" and "away" mode. I also want to ensure that if there are multiple people in the home, the Garden Hub communicates enough information so that there is continuity in care and understand across the people in the home. 
+
+
+<img src="01_IGarden_GreenThumb_Stark_July21.jpg" class="photo" alt="Indoor Home Garden concept for sensor.">
+  <figcaption>An idea for the soil sensors. Would be funny, at least I think so!</figcaption>
+
+<br>
+
+<h5>Object Oriented Model and Hardware Needs</h5>
 <br>
 
 IoT Sensors for Plants and Water
