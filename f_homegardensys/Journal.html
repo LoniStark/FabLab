@@ -196,7 +196,7 @@ For the Garden Hub brains of the system, I think I will want to have enough info
 
 I wanted to start with a set of use cases in order to focus this project as there are a lot of possible avenues to go down.
 
-<h6>HGS Set Up</h6>
+<h6><strong>HGS Set Up</strong></h6>
 
 When a user gets HGS for a home, there will be a primary user who will set up it up. I would imagine they would need to easily:
 
@@ -218,11 +218,29 @@ When a user gets HGS for a home, there will be a primary user who will set up it
 
 </ul>
 
-<h6>HGS Run Routines</h6>
+<br>
+<h6><strong>HGS Run Routines</strong></h6>
 
 With HGS set up, there is the routine checks and events that will happen.
 
+Garden Hub initiated events:
+<br>
+
 <ul>
+<li><strong>Soil Moisture Reading and Watering:</strong> Based on the frequency of soil moisture checks (default is 1x every 12 hours), the Garden Hub would poll each soil sensor for the health of each plant. The hub would go through an array of plants registered based on their MAC addresses and send a request of soil moisture reading. The response will be either receipt of a soil moisture reading or a failure. The soil moisture readings should be recorded and then compared to the moisture needs of the particular plant. Based on this comparison, there are a few things that can happen: no action is needed, or water is needed and the hub will send an action to the same MAC addresss to water the plant if the flag to water source "YES" is set. Otherwise, if the plant needs water, but the water source flag is set to "NO" then an alert is sent to the user to water a plant an a LED light on the plant hub gets set so the user knows that there is a pending action for them. Watering happens in the cycle of water, pause, get reading, compared and then decided to water the plant again. There should be an upper limit to the amount of water dispensed before a trigger that there is an issue with the system. The amount of water dispensed/watering event is recorded by the Garden Hub in the cloud. At any point, the user should be able to simply understand the state of the home garden and any actions that they may take.</li>
+<br>
+<li><strong>Low Water:</strong>There are three causes of low water
+<li><strong>User Inputs to Garden Hub:</strong>There are many actions that the user could initiate. The key ones I think are:
+  <ul>
+    <li>Looking at system status</li>
+    <li>Updating to note that watering happened if it is a manual trigger</li>
+    <li>Setting home or away mode.</li>
+    <li>Alerting on water sources getting low on water to fill up</li>
+    <li>Possible badge system for doing other tasks such as trimming the plants.</li>
+  </ul>
+</li>
+</ul>
+
   <li>The default 
 
 
