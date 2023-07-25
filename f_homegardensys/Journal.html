@@ -190,7 +190,17 @@ I think each soil sensor and water pump should operate in a stateless model only
 
 For the Garden Hub brains of the system, I think I will want to have enough information stored to allow for local operation even if it loses connection to the internet or power. This means having enough information in persistance and a battery source that would only be leverage if power to main system is lost. The Garden Hub would keep a record of each entity in the system (plant, soil sensor, water pump) which includes present state and historical state, communicate with each sensor for given actions and relay this information to the user and to be stored in the cloud so that a user can access the system and control even if they are away on business or vacation. The Garden Hub will also keep track of system-wide modes such as "home" and "away" mode. I also want to ensure that if there are multiple people in the home, the Garden Hub communicates enough information so that there is continuity in care and understand across the people in the home. 
 
-<h5>User Experience</h5>
+<h5>User Experience and Use Cases</h5>
+
+I wanted to start with a set of use cases in order to focus this project as there are a lot of possible avenues to go down.
+
+<h6>HGS Set Up</h6>
+
+When I user gets HGS for a home, there will be a primary user who will set up it up. I would imagine they would need to easily:
+
+<ul>
+  <li>Take the main <strong>Garden Hub</strong>, plug it in a power it up. There may be additional battery back up, but I would imagine this unit to be stationary in the home. This unit would need to connect to the internet and have access to the HGS data in the cloud. The unit would also need to sense for other IoT devices (soil sensors, water sources) connected that get to the system via ESP NOW. Each IoT device will have its own microcontroller with a unique MAC address which will be mapped 1:1 to a plant (soil sensor) or 1:few (water source). (Open Question: How will a reassignment of relationship happen?)</li>
+  <li>
 
 <img src="01_IGarden_GreenThumb_Stark_July21.jpg" class="photo" alt="Indoor Home Garden concept for sensor.">
   <figcaption>An idea for the soil sensors. Would be funny, at least I think so!</figcaption>
