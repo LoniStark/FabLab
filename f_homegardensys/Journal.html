@@ -29,7 +29,7 @@
 <h5>Home Garden Hub: Converging on the Idea</h5>
 
 
-After discussing the different ideas with others, I decided unless I came up with a better idea in the next week, I would spend my time on Pet Sitter and pursue my Cat's Cradle project as a way to learn more about robotic arms. The Plant Sitter is the front-runner because even though there are other solutions out there, there is a lot of range for the project from totally feasible to the ability to take the concept to new heights. There is the opportunity to connect different sensors, deploy different actions and evolve design/useability aspects of set up and monitoring. There could also be a specific personal and niche aspect of the problem which I could extend to in order to make it a unique solution.<br>
+After discussing the different ideas with others, I decided unless I came up with a better idea in the next week, I would spend my time on Plant Sitter and pursue my Cat's Cradle project as a way to learn more about robotic arms. The Plant Sitter is the front-runner because even though there are other solutions out there, there is a lot of range for the project from totally feasible to the ability to take the concept to new heights. There is the opportunity to connect different sensors, deploy different actions and evolve design/useability aspects of set up and monitoring. There could also be a specific personal and niche aspect of the problem which I could extend to in order to make it a unique solution.<br>
 <br>
 
 The Sky Roof Transformer would be super cool to bring to reality, but given the state of technology for both glass panels that turns opaque or lights up, I will most probably need to purchase them and perhaps hook them up. As a result, the central essence of this project loses the essence of the digital fabricaton initaitive. I still love the idea of having a Sky Roof Transformer and perhaps what I learn over the course of the 7 weeks will arm me to build this if it is not commercially available in the manner I conceive. <br>
@@ -238,18 +238,93 @@ Watering happens in the cycle of water, pause, get reading, compared and then de
 </ul>
 <br>
 
-<strong>User Initiated Inputs. </strong>All user initiatiated inputs go to the Garden Hub except the original turning on of each sensor:
+<strong>User Initiated Inputs. </strong>All user initiatiated inputs go to the Garden Hub except the original turning on of each sensor. These actions are:
   <ul>
-    <li>Looking at system status</li>
+    <li>Looking at system status, including historic data.</li>
     <li>Updating to note that watering happened if it is a manual trigger</li>
-    <li>Setting home or away mode.</li>
     <li>Alerting on water sources getting low on water to fill up</li>
     <li>Possible badge system for doing other tasks such as trimming the plants.</li>
+    <li>Add/Remove/Change a plant (soil sensor) from system.</li>
+    <li>Add/Remove/Change a water source (water source) from system</li>
+    <li>Setting home or away mode.</li>
   </ul>
 </li>
 </ul>
 
-  <li>The default 
+<strong>Sensor (Soil, Water) Initiated Events: </strong>For the most part, these sensors take inputs and report to the hub based on the hub's initiated requests. There are a few situations where I think interrupt events may make sense from the soil sensor and water sensor. This would be on event of low battery (both soil and water sensor) and low water (water source).
+
+
+<h5><strong>System Data Structures and APIs</strong></h5>
+
+To keep things simple, I want to standardize on as few objects and data structures being pass around as possible.
+
+<h6>Data Structures and Actions</h6>
+
+- Class: Plant_Profile
+  - Variables:
+    - Plant_Name (string): User-friendly name for the plant. Default values of to "Plant 1", "Plant 2"... Must be unique.
+    - Plant_ID (int): Unique ID of the plant that stays with it. Therefore, the microcontroller (sensor and output) can be changed between plants. If I connect the Plant_Profile only to the MAC Address of the microcontroller, then will be hard in future to change soil sensors and maintain the integrity of the log associated with the plant. 
+    - MAC Address of the microcontroller (in this case the xiao locally driving the soil and water pump 
+    - Moist_Level_Low (int): Lower boundary where if moisture goes below this, will start watering.
+    - Moist_Level_High (int): Upper boundary where if moisture goes above this, will stop watering.
+    - Water_On_Time_MS (int): Time water pump will be on for. The longer this is, the more water is dispensed before the check on soil moisture levels.
+    - Water_Soak_Time_MS (int): Length of time after dispensing water to wait before a new measurement is taken to determin if more water is needed.
+
+  - Functions:
+    - Plant_Profile (MAC Address): creates an instance of Plant_Profile connected to the MAC Address of the microcontroller (Xiao). Sets each variable based on defaults. Initializes a row in database
+    - Configure (int Plant_Type): sets the variables for now based on Plant_Type. Writes this to the real-time database.
+    - Update: Updates the variables for this Plant_Profile in the database.
+
+- Class: Plant_Helper
+    - Variables:
+        - Unique identifier (SUI_ID): This will be the MAC Address as the sensor is physically connected to the microcontroller and will not change.
+        - Plant_ID: Id of the plant an instance is associated with. (May not need this if can look up Plant ID by MAC Address)
+        - Plant_Hub: Mac Address of the plant hub so messages can be sent between the Plant_Helper microcontroller and the Plant_Hub microcontroller. All messages are between Plant_Helper and Plant_Hub. Then Plant_Helper will direct locally the actions from the Plant_Hub and relay any messages back via ESP Now
+        - Soil_Sensor: (input) Includes an instance of soil_sensor which will be used to query for soil moisture levels. 
+        - Water_Pump_Pin: which will be an instance to take action with the pump. If it gets more complex, could be a class. 
+        - Water_Source (int Pin): If -1 then does not have a sensor for water source level. If number if different than means also sensing for water source.
+
+        There could be other inputs and outputs in the future that the Plant_Helper can relay. The watersource associated with the water pump I think will stored at the plant hub. Based on activation of the water pump, the plant hub will then query the water source which will have its own sensor per container. I could also make a particular Plant_Helper the key watersource designate as well. This could be useful in "Plant Groups".
+
+    - Actions:
+        - Plant_Helper: Instantiate a Plant_Helper (int Plant_ID, int Soil_Pin, int Water_Pin, int Water_Source) passing in the plant associated with it and also the control pins for the soil sensor and water pump. This function will call to create a Soil_Sensor and Water_Pump object using the pin numbers. These input and output devices don't need to know the Plant_ID as this is kept with the Plant_Helper. If there is a value other than -1, then means there is also need to create a water_source instance)
+        - Get_Soil_Moist(): Gets the reading of soil_moisture and returns this. 
+        - Activate_Water_Pump(int time): Activates the water pump for a set amount of time. Returns failure or success.
+        - Check_Battery_Level(): Checks on how much battery is left. 
+        - Change_Plant_ID: This function changes the plant associated with the Plant_Helper.
+
+- Class: Soil_Sensor
+    - Variables:
+      - Sensor_Pin (int): pin for the soil sensor
+      - Water_Level_Wet (int): calibrated level for sensor submerged in water.
+      - Water_Level_Dry (int): calibrated level for sensor that is dry.
+      - Get_Soil_Data (): Gets the reading for soil moisture as a percentage mapped from 0-100
+
+    - Functions:
+      - Soil_Sensor (int Pin): Instantiates an instance of soil sensor. Sets the soil sensor Pin. 
+      - Calibrate (): Calibrates the 0 and 100 values for dry to totally wet.
+      - Get_Data (): Returns a value for the moisture level
+
+
+- Class: Water_Pump (not in current design. maybe for later)
+ - Variables:
+    - Pump_Pin
+
+ - Class: Water_Source
+    - For now thinking the water source will be connected to a "lead" Plant Helper
+    - Variables: 
+        - Sensor_Pin (int): Pin for water level sensor
+    - Functions:
+        - Water_Source (int pin)
+        - Get_WaterLevel () - returns water level
+
+- Class: Plant_Hub
+    - MAC_Address: address
+    - Plant_Collection: Array of Plant_Profiles
+    - >> need to figure out database stuff. 
+    - How store log or scoring
+
+
 
 
 
