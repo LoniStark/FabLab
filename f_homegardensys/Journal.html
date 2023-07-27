@@ -230,7 +230,7 @@ With HGS set up, there is the routine checks and events that will happen.
 <li><strong>Soil Moisture Reading and Watering.</strong> Based on the frequency of soil moisture checks (default is 1x every 12 hours), the Garden Hub would poll each soil sensor for the health of each plant. The hub would go through an array of plants registered based on their MAC addresses and send a request of soil moisture reading. The response will be either receipt of a soil moisture reading or a failure. The soil moisture readings should be recorded and then compared to the moisture needs of the particular plant. Based on this comparison, there are a few things that can happen: 
 <ul>
 <li>no action is needed</li>
-<li>water is needed and the hub will send an action to the same MAC addresss to water the plant if the flag to water source "YES" is set. Otherwise, if the plant needs water, but the water source flag is set to "NO" then an alert is sent to the user to water a plant an a LED light on the plant hub gets set so the user knows that there is a pending action for them. </li></ul>
+<li>water is needed and the hub will send an action to the same MAC addresss to water the plant if the flag to water source "YES" is set. Otherwise, if the plant needs water, but the water source flag is set to "NO" then an alert is sent to the user to water a plant an a LED light on the garden hub gets set so the user knows that there is a pending action for them. </li></ul>
 Watering happens in the cycle of water, pause, get reading, compared and then decided to water the plant again. There should be an upper limit to the amount of water dispensed before a trigger that there is an issue with the system. The amount of water dispensed/watering event is recorded by the Garden Hub in the cloud. At any point, the user should be able to simply understand the state of the home garden and any actions that they may take.</li>
 <br>
 <li><strong>Low Water.</strong>There are three causes of low water: use to water plants, a leak at watersource and evaporation. I think the Garden Hub will check on water source after each watering event. For the other issues such as leaks and evaporation, I think these will be interupt events from sensor to Garden Hub. (Thought: Given the water sensor may not know the cause of the low water, it will be sending a message of low water anyways to the Garden Hub so does it simplify design by just having any low water signal come from the water sensor).
@@ -275,23 +275,23 @@ To keep things simple, I want to standardize on as few objects and data structur
     - Configure (int Plant_Type): sets the variables for now based on Plant_Type. Writes this to the real-time database.
     - Update: Updates the variables for this Plant_Profile in the database.
 
-- Class: Plant_Helper
+- Class: Plant_Bud
     - Variables:
         - Unique identifier (SUI_ID): This will be the MAC Address as the sensor is physically connected to the microcontroller and will not change.
         - Plant_ID: Id of the plant an instance is associated with. (May not need this if can look up Plant ID by MAC Address)
-        - Plant_Hub: Mac Address of the plant hub so messages can be sent between the Plant_Helper microcontroller and the Plant_Hub microcontroller. All messages are between Plant_Helper and Plant_Hub. Then Plant_Helper will direct locally the actions from the Plant_Hub and relay any messages back via ESP Now
+        - Garden_Hub: Mac Address of the Garden hub so messages can be sent between the Plant_Bud microcontroller and the Garden_Hub microcontroller. All messages are between Plant_Bud and Garden_Hub. Then Plant_Bud will direct locally the actions from the Garden_Hub and relay any messages back via ESP Now
         - Soil_Sensor: (input) Includes an instance of soil_sensor which will be used to query for soil moisture levels. 
         - Water_Pump_Pin: which will be an instance to take action with the pump. If it gets more complex, could be a class. 
         - Water_Source (int Pin): If -1 then does not have a sensor for water source level. If number if different than means also sensing for water source.
 
-        There could be other inputs and outputs in the future that the Plant_Helper can relay. The watersource associated with the water pump I think will stored at the plant hub. Based on activation of the water pump, the plant hub will then query the water source which will have its own sensor per container. I could also make a particular Plant_Helper the key watersource designate as well. This could be useful in "Plant Groups".
+        There could be other inputs and outputs in the future that the Plant_Bud can relay. The watersource associated with the water pump I think will stored at the Garden hub. Based on activation of the water pump, the Garden hub will then query the water source which will have its own sensor per container. I could also make a particular Plant_Bud the key watersource designate as well. This could be useful in "Plant Groups".
 
     - Actions:
-        - Plant_Helper: Instantiate a Plant_Helper (int Plant_ID, int Soil_Pin, int Water_Pin, int Water_Source) passing in the plant associated with it and also the control pins for the soil sensor and water pump. This function will call to create a Soil_Sensor and Water_Pump object using the pin numbers. These input and output devices don't need to know the Plant_ID as this is kept with the Plant_Helper. If there is a value other than -1, then means there is also need to create a water_source instance)
+        - Plant_Bud: Instantiate a Plant_Bud (int Plant_ID, int Soil_Pin, int Water_Pin, int Water_Source) passing in the plant associated with it and also the control pins for the soil sensor and water pump. This function will call to create a Soil_Sensor and Water_Pump object using the pin numbers. These input and output devices don't need to know the Plant_ID as this is kept with the Plant_Bud. If there is a value other than -1, then means there is also need to create a water_source instance)
         - Get_Soil_Moist(): Gets the reading of soil_moisture and returns this. 
         - Activate_Water_Pump(int time): Activates the water pump for a set amount of time. Returns failure or success.
         - Check_Battery_Level(): Checks on how much battery is left. 
-        - Change_Plant_ID: This function changes the plant associated with the Plant_Helper.
+        - Change_Plant_ID: This function changes the plant associated with the Plant_Bud.
 
 - Class: Soil_Sensor
     - Variables:
@@ -311,14 +311,14 @@ To keep things simple, I want to standardize on as few objects and data structur
     - Pump_Pin
 
  - Class: Water_Source
-    - For now thinking the water source will be connected to a "lead" Plant Helper
+    - For now thinking the water source will be connected to a "lead" Plant Bud
     - Variables: 
         - Sensor_Pin (int): Pin for water level sensor
     - Functions:
         - Water_Source (int pin)
         - Get_WaterLevel () - returns water level
 
-- Class: Plant_Hub
+- Class: Garden_Hub
     - MAC_Address: address
     - Plant_Collection: Array of Plant_Profiles
     - >> need to figure out database stuff. 
@@ -326,21 +326,59 @@ To keep things simple, I want to standardize on as few objects and data structur
 
 
 
+>> MAC Address becomes a index to access diferent sensors - need to get Plant ID to verify still same plant ID
 
 
 <img src="01_IGarden_GreenThumb_Stark_July21.jpg" class="photo" alt="Indoor Home Garden concept for sensor.">
   <figcaption>An idea for the soil sensors. Would be funny, at least I think so!</figcaption>
 
 
-  https://time.com/6258638/indoor-plants-health-benefits/
-  
+<h5>Setting up the Real-Time Database to Garden Hub</h5>
+
+To learn how to work with Google Firebase, I used several of Random Nerd's tutorials. In particular:
+
+- https://randomnerdtutorials.com/esp32-firebase-realtime-database/
+- https://randomnerdtutorials.com/esp-now-auto-pairing-esp32-esp8266/
+- logging??
+- https://randomnerdtutorials.com/esp32-firebase-web-app/
+
+I set up a new real-time database in order to store the various <strong>Plant Profiles</strong> which is based on the data structure above. For each, there is also information such as the MAC Address of the <strong>Plant Buds</strong> so that the Garden Hub can establish connection with each via ESP Now. Only the Garden Hub interacts with the real-time database in the cloud. 
+
+I also had to port my development environment from the Arduino IDE to VS Code with Platform I/0 extension in prep for needing to build a web interace to to Garden Hub so users can access it remotely when they are away from home. Authentication was through anonymous and via email for the logging. 
+
+Based on learnings from this, I was able to flesh out more the Garden_Hub variables and functions. The Garden Hub class would need to include:
+
+- a real-time database object
+- functions to easily read, write and update a plant profile.
+
+I also thought about the database structure for plant profile and decided each plant would have an ID which would be the key to the database, and all other information would be under that. I also need to figure out the structure of the logs for this.
+
+However, before I get into the logging, I thought an more priority MVP item would be to get the connection between the Plant_Bud instances and the Garden_Hub working. 
+
+<h5>Plant Buds Set-up</h5>
+
+Up until now, I had played with the soil sensors getting data from a soil capacitive moisture sensor. I want to make each plant bud a set of standard hardware components connected in a specific manner. Here is the definitions:
+
+- <strong>Xiao ESP32-C3</strong>: (required) microcontroller for a plant bud.
+- <strong>Capacitive Soil Moisture Sensor v. 2.0</strong>: (required) input that senses water needs of the plant. 
+    - AUOT connected to pin D0. 
+    <br>
+- <strong>Water Pump</strong>: (optional) output that dispenses water for a given ms for a plant. 
+    - Connected to D1. Water Pump "1" (yes) or "0" (no) set by check on if there is any valid data coming from pin D1.
+- <strong>Water Source</strong>: (optional) input that senses the water level of the source. If low, will alert user to fill up the water source. 
+    - Connected to  D2. Water Source "1" (yes) or "0" (no) set by check on if there is any valid data coming from pin D2.
+    <br>
+- <strong>battery source</strong>: Each plant_helper will be powered by a battery source that will support the soil sensor and the water level sensor (if present). Depending on power needs of the water pump, this may be an externally powered unit. 
+    - Need to figure out how to detect low battery.
+     <br>
+
 
 <br>
 
-<h5>Object Oriented Model and Hardware Needs</h5>
+<h5>Hardware Needs</h5>
 <br>
 
-IoT Sensors for Plants and Water
+IoT Sensors for Plants and Water 
 
 For each of the IoT sensors I needed to ensure it as equiped with the necessary input sensors and also the way to communicate with the central home garden hub. For this, an ESP32-C3 board is used. 
 
@@ -376,6 +414,7 @@ To start, I followed the information here: https://randomnerdtutorials.com/esp-n
 
 - Installed the Adafruit SSD 1306 library. Already had the GFX library.
 - Also the BME280 and already had the Unified Sensor Libraries
+
 
 
 
