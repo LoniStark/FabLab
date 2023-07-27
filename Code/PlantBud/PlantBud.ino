@@ -38,14 +38,51 @@ This is for each plant, there will be a plant bud in the Home Garden System (HPG
 #include <esp_now.h>
 
 uint8_t broadcastAddress[] =  {0xE0, 0x5A, 0x1B, 0x0D, 0x0C, 0x8C};    
+
+//Define structure for Plant Profile data to record plants in home garden
+typedef struct plant_profile {
+  String name;
+  int p_ID;
+  String pBudAddress;
+  int moist_level_low;
+  int moist_level_high;
+  int water_on_time_ms;
+  int water_soak_time_ms;
+  bool status_sensor; //1 if present, 0 if not
+  bool status_pump; //1 if present, 0 if not
+  bool status_wsource; //1 if present, 0 if not
+} plant_profile;
+
+// Define variables to send soil sensor readings
+int outgoing_PBsensor_moist; //percentage moisture of soil for a plant
+
+typedef struct plantBud_sensor {
+    int moist;
+   // other recordings like time measure was taken
+} plantBud_sensor;
+
+//Structure for requests coming from Garden Hub to Plant Bud
+
+typedef struct GHtoPB_input_req {
+  int check_plant_ID;
+  int get_soil_moist;
+  int get_water_level;
+} GHtoPB_input_req;
+
 String success;
 
+// Both GH request and PB incoming readings
+
+GHtoPB_input_req gardenHubInputRequest;
+plantBud_sensor outgoingPBReadings;
+plant_profile plantData;
 
 byte incomingByte;
 byte outgoingByte;
 
+esp_now_peer_info_t peerInfo;
 
- 
+
 // define full range from wet to dry based on calibration of sensor completely dry and immerse in water.
 int defaultDry = 3325;
 int defaultWet = 1250;
@@ -53,20 +90,6 @@ int moistureVal;
 unsigned long previousMillis = 0;
 long delayTime = 1000; 
 int buzzerPin = D2;
-
-// Define plant_profile data structure
-typedef struct plant_profile {
-  char name[32];
-  int p_ID;
-   String broadcastAddress;
-  int moist_level_low;
-  int moist_level_high;
-  int water_on_time_ms;
-  int water_soak_time_ms;
-} plant_profile;
- 
-
-plant_profile plantData;
 
  void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   Serial.print("\r\nLast Packet Send Status:\t");
@@ -81,24 +104,19 @@ plant_profile plantData;
 
 // Callback when data is received
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
-  memcpy(&incomingByte, incomingData, sizeof(incomingByte));
+
+  // This function will need to figure out what the request is and then take the necessary action. 
+  Serial.println ("RECEIVING GARDEN HUB REQUEST");
+  memcpy(&gardenHubInputRequest, incomingData, sizeof(gardenHubInputRequest));
   Serial.print("Bytes received: ");
   Serial.println(len);
+  
   Serial.println("Information Received:");
-  Serial.println(plantData.name);
-  Serial.println(plantData.p_ID);
-  Serial.println(plantData.broadcastAddress);
-  Serial.println(plantData.moist_level_high);
-  Serial.println(plantData.moist_level_low);
-  Serial.println(plantData.water_on_time_ms);
-  Serial.println(plantData.water_soak_time_ms);
-  strcpy(plantData.name, "Fiddle Leaf Fig - ");
-  plantData.p_ID= 1;
-  plantData.broadcastAddress = WiFi.macAddress();
-  plantData.moist_level_high = 1000;
-  plantData.moist_level_low = 888;
-  plantData.water_on_time_ms = 100;
-  plantData.water_soak_time_ms = 5000;
+  Serial.println(gardenHubInputRequest.check_plant_ID);
+  Serial.println(gardenHubInputRequest.get_soil_moist);
+  Serial.println(gardenHubInputRequest.get_water_level);
+  
+  
 }
 
 class SoilSensor
@@ -159,21 +177,22 @@ void setup() {
   Serial.println(WiFi.macAddress());
   //establish ESP Now?
   //soil.Calibrate();
-     // Init ESP-NOW
-    // Init ESP-NOW
+
+  // Init ESP-NOW ***************************
   if (esp_now_init() != ESP_OK) {
     Serial.println("Error initializing ESP-NOW");
     return;
   }
 
-// Register for a callback function that will be called when data is received
+  // Once ESPNow is successfully Init, we will register for Send CB to
+  // get the status of Trasnmitted packet
   esp_now_register_send_cb(OnDataSent);
-// Register peer
-  esp_now_peer_info_t peerInfo;
-  memset(&peerInfo, 0, sizeof(peerInfo));
+  
+  // Register peer
   memcpy(peerInfo.peer_addr, broadcastAddress, 6);
   peerInfo.channel = 0;  
   peerInfo.encrypt = false;
+  Serial.print("Peer Address:");
 
   // Add peer        
   if (esp_now_add_peer(&peerInfo) != ESP_OK){

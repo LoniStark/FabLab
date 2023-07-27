@@ -26,7 +26,217 @@
 <br>
 
 
-Garden Hub: ESP Now and Internet
+<h5>Home Garden System: ESP Now and Internet</h5>
+
+Given the nature of my final project involves a large component of communications, I explored this space in the context of my final project.
+
+Overall vision for the Home Garden System is a set of plant sensors, specifically for this first iteration soil moisture sensors that send information, via ESP NOW,back to a central "Garden Hub" viwhich then stores the records for each plant in a cloud-based real-time database, Google Firebase.
+
+Here is overall view of this:
+
+<img src="02_IGarden_HomeGardenHubEntities_Stark_July22.jpg" class="photo" alt="Indoor Home Garden">
+  <figcaption>Entites in the Home Garden System.</figcaption>
+  <br>
+
+For the communication between the cloud database, Garden Hub and Plant Bud about each plant, I defined the data structure for the communication:
+
+<div class="box">
+  <pre>
+    <code>
+
+//Define structure for Plant Profile data to record plants in home garden
+typedef struct plant_profile {
+  String name;
+  int p_ID;
+  String broadcastAddress;
+  int moist_level_low;
+  int moist_level_high;
+  int water_on_time_ms;
+  int water_soak_time_ms;
+  bool status_sensor; //1 if present, 0 if not
+  bool status_pump; //1 if present, 0 if not
+  bool status_wsource; //1 if present, 0 if not
+} plant_profile;
+
+</code>
+</pre>
+</div>
+
+The cloud real-time database then has entries in this format indexed by plant_ID. There are functions to read (get) and write (record) to the database. In this example, plantData is of type plant_profile and GardenDO is the FirebaseData object. 
+
+The recordPlantProfile takes in the plantID to use as the main node in the database. The getPlantProfile looks up the data based on the plant ID and returns the data in the structure of the plant_profile.
+
+<div class="box">
+  <pre>
+    <code>
+
+void recordPlantProfile(plant_profile data){
+
+plant_profile p_record = data;
+
+    String p_IDstring = String(p_record.p_ID);
+
+    // TEST: Set a plant profile in the database
+    if (Firebase.RTDB.setString(&GardenDO, p_IDstring + "/name", plantData.name)){  
+      Serial.println("PASSED");
+      Serial.println("PATH: " + GardenDO.dataPath());
+      Serial.println("TYPE: " + GardenDO.dataType());
+    }
+
+     if (Firebase.RTDB.setString(&GardenDO, p_IDstring + "/address", plantData.broadcastAddress)){  
+      Serial.println("PASSED");
+      Serial.println("PATH: " + GardenDO.dataPath());
+      Serial.println("TYPE: " + GardenDO.dataType());
+    }
+
+     if (Firebase.RTDB.setInt(&GardenDO, p_IDstring + "/m_low", plantData.moist_level_low)){  
+      Serial.println("PASSED");
+      Serial.println("PATH: " + GardenDO.dataPath());
+      Serial.println("TYPE: " + GardenDO.dataType());
+    }
+
+     // TEST: Set a plant profile in the database
+    if (Firebase.RTDB.setInt(&GardenDO, p_IDstring + "/m_high", plantData.moist_level_high)){  
+      Serial.println("PASSED");
+      Serial.println("PATH: " + GardenDO.dataPath());
+      Serial.println("TYPE: " + GardenDO.dataType());
+    }
+
+        if (Firebase.RTDB.setInt(&GardenDO, p_IDstring +  "/w_time", plantData.water_on_time_ms)){  
+      Serial.println("PASSED");
+      Serial.println("PATH: " + GardenDO.dataPath());
+      Serial.println("TYPE: " + GardenDO.dataType());
+    }
+
+        if (Firebase.RTDB.setInt(&GardenDO, p_IDstring + "/soak", plantData.water_soak_time_ms)){  
+      Serial.println("PASSED");
+      Serial.println("PATH: " + GardenDO.dataPath());
+      Serial.println("TYPE: " + GardenDO.dataType());
+
+    }
+
+    if (Firebase.RTDB.setBool(&GardenDO, p_IDstring + "/soilSensor", plantData.status_sensor)){  
+      Serial.println("PASSED");
+      Serial.println("PATH: " + GardenDO.dataPath());
+      Serial.println("TYPE: " + GardenDO.dataType());
+
+    }
+
+     if (Firebase.RTDB.setBool(&GardenDO, p_IDstring + "/pumpOutput", plantData.status_pump)){  
+      Serial.println("PASSED");
+      Serial.println("PATH: " + GardenDO.dataPath());
+      Serial.println("TYPE: " + GardenDO.dataType());
+
+    }
+
+   if (Firebase.RTDB.setBool(&GardenDO, p_IDstring + "/wsourceSensor", plantData.status_wsource)){  
+      Serial.println("PASSED");
+      Serial.println("PATH: " + GardenDO.dataPath());
+      Serial.println("TYPE: " + GardenDO.dataType());
+    }
+
+}
+
+plant_profile getPlantProfile(int PlantID){
+
+ plant_profile plant_record;
+ String plantLookup = String(PlantID);
+ Serial.print("GET FUNCTION");
+   if (Firebase.RTDB.getString(&GardenDO, plantLookup + "/name")) {
+        plant_record.name = GardenDO.stringData();
+        Serial.print("Read Name: ");
+        Serial.println(plant_record.name);
+       
+    }
+    else {
+      Serial.println(GardenDO.errorReason());
+    }
+
+    if (Firebase.RTDB.getString(&GardenDO, plantLookup + "/address")) {
+        plant_record.broadcastAddress = GardenDO.stringData();
+        Serial.print("Read Address");
+        Serial.println(plant_record.name);
+       
+    }
+    else {
+      Serial.println(GardenDO.errorReason());
+    }
+
+    if (Firebase.RTDB.getInt(&GardenDO, plantLookup + "/m_low")) {
+        plant_record.moist_level_low = GardenDO.intData();
+        Serial.print("Read Low: ");
+        Serial.println(plant_record.moist_level_low);
+       
+    }
+    else {
+      Serial.println(GardenDO.errorReason());
+    }
+
+    if (Firebase.RTDB.getInt(&GardenDO, plantLookup + "/m_high")) {
+        plant_record.moist_level_high = GardenDO.intData();
+        Serial.print("Read High: ");
+        Serial.println(plant_record.moist_level_high);
+       
+    }
+    else {
+      Serial.println(GardenDO.errorReason());
+    }
+
+    if (Firebase.RTDB.getInt(&GardenDO, plantLookup + "/w_time")) {
+        plant_record.water_on_time_ms = GardenDO.intData();
+        Serial.print("Read Water Time: ");
+        Serial.println(plant_record.water_on_time_ms);
+    }
+    else {
+      Serial.println(GardenDO.errorReason());
+    }
+
+      if (Firebase.RTDB.getInt(&GardenDO, plantLookup + "/soak")) {
+        plant_record.water_soak_time_ms = GardenDO.intData();
+        Serial.print("Read Water Time: ");
+        Serial.println(plant_record.water_soak_time_ms);
+    }
+    else {
+      Serial.println(GardenDO.errorReason());
+    }
+
+   if (Firebase.RTDB.getBool(&GardenDO, plantLookup + "/soilSensor")) {
+        plant_record.status_sensor = GardenDO.boolData();
+        Serial.print("Read Soil Sensor: ");
+        Serial.println(plant_record.status_sensor);
+    }
+    else {
+      Serial.println(GardenDO.errorReason());
+    }
+
+  if (Firebase.RTDB.getBool(&GardenDO, plantLookup + "/pumpOutput")) {
+        plant_record.status_pump = GardenDO.boolData();
+        Serial.print("Read Pump Output: ");
+        Serial.println(plant_record.status_pump);
+    }
+    else {
+      Serial.println(GardenDO.errorReason());
+    }
+
+      if (Firebase.RTDB.getBool(&GardenDO, plantLookup + "/wsourceSensor")) {
+        plant_record.status_wsource = GardenDO.boolData();
+        Serial.print("Read Water Source: ");
+        Serial.println(plant_record.status_wsource);
+    }
+    else {
+      Serial.println(GardenDO.errorReason());
+    }
+
+ return plant_record;
+}
+
+</code>
+</pre>
+</div>
+
+
+<img src="01_Comms_GardenHubCloudDatabase_Stark_July26.jpg" class="photo" alt="Garden Hub Database">
+  <figcaption>Based on the recordPlantProfile function running on the Garden Hub microcontroller, the Google Firebase database recorded the values sent over the internet.</figcaption>
 
 </xmp>
 

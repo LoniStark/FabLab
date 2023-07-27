@@ -372,6 +372,33 @@ Up until now, I had played with the soil sensors getting data from a soil capaci
     - Need to figure out how to detect low battery.
      <br>
 
+<h5>Garden Hub Set-up</h5>
+
+The Garden Hub hardware includes:
+- <strong>Adafruit ESP32 Feather Board</strong>
+<br>
+- <strong>Screen (2.0inch Arduino SPI Module ILI9225)</strong>
+    - Product Docs: http://www.lcdwiki.com/2.0inch_Arduino_SPI_Module_ILI9225_SKU:MAR2001
+<br>
+- <strong>BME280 Sensor</strong>
+<br>
+- <strong>Battery</strong>
+<br>
+
+
+<h5>Setting up TFT Display on Garden Hub</h5>
+
+I used this example to figure out how to set up the connection between a Plant Bud and the Garden Hub: https://randomnerdtutorials.com/esp-now-two-way-communication-esp32/.
+
+- Installed the libraries: Adafruit SSD 1306. Already had the GFX library installed.
+- Installed the BME280 Sensor. Had the Adafruit Unified Sensor already installed
+
+Realized I had a TFT Screen: Installed the TFT_eSPI library based on info I got from a Reddit Forum.
+
+
+
+
+
 
 <br>
 
