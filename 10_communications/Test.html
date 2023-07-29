@@ -106,13 +106,15 @@ Display Home Garden Plants
           snapshot.forEach(
        
             function(PlantSnapshot){
+              let address = PlantSnapshot.val().address;
+              if(address != 'none'){
               let name = PlantSnapshot.val().name;
               let moisture = PlantSnapshot.val().cMoist;
               let waterhigh = PlantSnapshot.val().m_high;
               let waterlow = PlantSnapshot.val().m_low;
-              addPlanttoList(name, moisture, waterhigh, waterlow);
+              addPlanttoList(name, moisture, waterhigh, waterlow);}
           }
-          
+
         );
     });
 
