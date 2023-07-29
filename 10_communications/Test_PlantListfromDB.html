@@ -1,0 +1,109 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Garden Hub</title>
+</head>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
+
+<body>
+
+<header>
+  <nav class="navbar navbar-expand-sm"> 
+  <div style="align-items: left; justify-content:left;" class="container-fluid">
+    <h3 class="nav-title">Explorations in Digital Fabrication</h3>
+    <div class="navbar-nav" style="align-items: right;">
+      <h4><a class="nav-link" href="https://fablab.atelierstark.com/index.html">Home</a></h4>
+      <h4><a class="nav-link" href="https://fablab.atelierstark.com/about.html">About</a></h4>
+    </div>
+  </div>
+</nav>
+</header>
+<br>
+<h5 align=center> Home Garden Hub </h5>
+<br>
+
+
+<h6>Plants</h6>  
+<ul id="plantList">
+
+</ul>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+   <!-- jQuery -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+  apiKey: "AIzaSyCF6zm-Hlf90m8kcQNBth4EFZdiRuArbRc",
+  authDomain: "gardenhub-51953.firebaseapp.com",
+  databaseURL: "https://gardenhub-51953-default-rtdb.firebaseio.com",
+  projectId: "gardenhub-51953",
+  storageBucket: "gardenhub-51953.appspot.com",
+  messagingSenderId: "293827284172",
+  appId: "1:293827284172:web:665d5dd940cc6934834669"
+};
+
+        // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+ // Get a database reference to our blog
+    var ref = firebase.database().ref("/");
+    var database = firebase.database();
+
+    var plantNo;
+
+
+    function addPlanttoList(name, moisture, waterhigh, waterlow){
+        var ul=document.getElementById('plantList');
+        var header = document.createElement('h5');
+        var _name = document.createElement('li');
+        var _moisture = document.createElement('li');
+        var _waterhigh = document.createElement('li');
+        var _waterlow = document.createElement('li');
+
+        _name.innerHTML = '<strong>Name: '+name + '</strong>';
+        _moisture.innerHTML = 'Moisture Reading: '+moisture;
+        _waterhigh.innerHTML = 'Upper Limit: '+waterhigh;
+        _waterlow.innerHTML = 'Lower Limit: '+waterlow;
+
+        ul.appendChild(header);
+        ul.appendChild(_name);
+        ul.appendChild(_moisture);
+        ul.appendChild(_waterhigh);
+        ul.appendChild(_waterlow);
+
+    }
+
+    function FetchAllData(){
+      firebase.database().ref('PlantData').once('value',function(snapshot){
+          snapshot.forEach(
+       
+            function(PlantSnapshot){
+              let address = PlantSnapshot.val().address;
+              if(address != 'none'){
+              let name = PlantSnapshot.val().name;
+              let moisture = PlantSnapshot.val().cMoist;
+              let waterhigh = PlantSnapshot.val().m_high;
+              let waterlow = PlantSnapshot.val().m_low;
+              addPlanttoList(name, moisture, waterhigh, waterlow);}
+          }
+
+        );
+    });
+
+  }
+
+  window.onload= FetchAllData;
+    
+ 
+</script>
+
+
+</body>
