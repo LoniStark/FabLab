@@ -77,8 +77,9 @@ GHtoPB_input_req gardenHubInputRequest;
 plantBud_sensor outgoingPBReadings;
 plant_profile plantData;
 
-byte incomingByte;
-byte outgoingByte;
+//byte incomingByte;
+//byte outgoingByte;
+
 
 esp_now_peer_info_t peerInfo;
 
@@ -88,7 +89,7 @@ int defaultDry = 3325;
 int defaultWet = 1250;
 int moistureVal;
 unsigned long previousMillis = 0;
-long delayTime = 1000; 
+long delayTime = 3000; 
 int buzzerPin = D2;
 
  void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
@@ -141,16 +142,18 @@ class SoilSensor
 
  }
 
-void Update()
+int Update()
 {
   
   int moistureVal = analogRead(moistPin);
+  Serial.print("Capacitive Reading:");
   Serial.println(moistureVal);
   int percentageHumidity = map(moistureVal, wet, dry, 100, 0);
   Serial.print("Moisture Percentage:");
   Serial.print(percentageHumidity);
   Serial.println("%");
-  Serial.println(SUI_ID);
+  //Serial.println(SUI_ID);
+  return percentageHumidity;
 
  }
 
@@ -196,7 +199,7 @@ void setup() {
 
   // Add peer        
   if (esp_now_add_peer(&peerInfo) != ESP_OK){
-    Serial.println("Failed to add peer");
+    Serial.println("Failed to add peer.");
     return;
   }
   // Register for a callback function that will be called when data is received
@@ -207,9 +210,9 @@ void setup() {
 void loop() {
   unsigned long currentMillis = millis();
    if(currentMillis-previousMillis>delayTime){
-       soil.Update();
-        previousMillis = currentMillis;
-   }
+      outgoingPBReadings.moist = soil.Update();
+      previousMillis = currentMillis;
+ 
 
  /*  if ((myData.b % 2) == 0){ 
       Serial.println("EVEN NUMBER");
@@ -220,7 +223,7 @@ void loop() {
    }*/
 
   // Send message via ESP-NOW
-  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &outgoingByte, sizeof(outgoingByte));
+  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &outgoingPBReadings, sizeof(outgoingPBReadings));
 
   if (result == ESP_OK) {
     Serial.println("Sent with success");
@@ -228,6 +231,8 @@ void loop() {
   else {
     Serial.println("Error sending the data");
   }
-Serial.println(WiFi.macAddress());
- delay(3000);
+
+   }
+//Serial.println(WiFi.macAddress());
+ //delay(3000);
 }
