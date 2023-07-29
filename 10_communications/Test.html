@@ -14,24 +14,29 @@
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
 
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-         https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
-
+    
     <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-        apiKey: "REPLACE_WITH_YOUR_OWN",
-        authDomain: "REPLACE_WITH_YOUR_OWN",
-        databaseURL: "REPLACE_WITH_YOUR_OWN",
-        projectId: "REPLACE_WITH_YOUR_OWN",
-        storageBucket: "REPLACE_WITH_YOUR_OWN",
-        messagingSenderId: "REPLACE_WITH_YOUR_OWN",
-        appId: "REPLACE_WITH_YOUR_OWN"
-    };
-        // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+   // Import the functions you need from the SDKs you need
+ import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCF6zm-Hlf90m8kcQNBth4EFZdiRuArbRc",
+  authDomain: "gardenhub-51953.firebaseapp.com",
+  databaseURL: "https://gardenhub-51953-default-rtdb.firebaseio.com",
+  projectId: "gardenhub-51953",
+  storageBucket: "gardenhub-51953.appspot.com",
+  messagingSenderId: "293827284172",
+  appId: "1:293827284172:web:665d5dd940cc6934834669"
+};
+
+// Initialize Firebase
+ const app = initializeApp(firebaseConfig);
 
     // Get a database reference to our blog
     var ref = firebase.database().ref("/");
