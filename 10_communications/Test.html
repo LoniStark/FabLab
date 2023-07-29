@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html class="no-js" lang="en">
+<html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,43 +12,23 @@
 
 <body>
 
-<header>
-  <nav class="navbar navbar-expand-sm"> 
-  <div style="align-items: left; justify-content:left;" class="container-fluid">
-    <h3 class="nav-title">Explorations in Digital Fabrication</h3>
-    <div class="navbar-nav" style="align-items: right;">
-      <h4><a class="nav-link" href="https://fablab.atelierstark.com/index.html">Home</a></h4>
-      <h4><a class="nav-link" href="https://fablab.atelierstark.com/about.html">About</a></h4>
-    </div>
-  </div>
-</nav>
-</header>
-<br>
 <h5> Home Garden Hub </h5>
 
-     <button id="turn-on" name="turnon">Turn On</button>
+Display Home Garden Plants
+
+
+    <button id="turn-on" name="turnon">Turn On</button>
      <button id="turn-off" name="turnoff">Turn Off</button>
-     <form>
-
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" placeholder="Your name..">
-
-      <label for="email">email</label>
-      <input type="email" id="email" name="email" placeholder="Your email..">
-
-      <label for="message">Subject</label>
-      <textarea id="message" name="message" placeholder="Write something.." style="height:200px"></textarea>
-
-      <button id="submit_msg" type="button">Submit</button>
-    </form>
     
+<ul id="plantList">
+
+</ul>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
-
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-         https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+   <!-- jQuery -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
     // Your web app's Firebase configuration
     var firebaseConfig = {
@@ -64,12 +44,26 @@
         // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
-    // Get a database reference to our blog
+ // Get a database reference to our blog
     var ref = firebase.database().ref("/");
+    var database = firebase.database();
+
+       //create a variable to hold our orders list from firebase
+    var firebasePlantsCollection = database.ref().child('PlantData');
+
+    var plantNo;
 
     // make the buttons call the function below 
     document.getElementById('turn-on').addEventListener('click', turnOn, false);
     document.getElementById('turn-off').addEventListener('click', turnOff, false);
+
+
+   firebasePlantsCollection.on("value", function(snapshot) {
+   console.log(snapshot.val());
+   }, function (error) {
+   console.log("Error: " + error.code);
+   });
+
 
     function turnOn(){
         console.log("turning on");
@@ -84,6 +78,49 @@
             "LED_STATUS": "OFF"
         });
     }    
+
+
+    function addPlanttoList(name, moisture, waterhigh, waterlow){
+        var ul=document.getElementById('plantList');
+        var header = document.createElement('h5');
+        var _name = document.createElement('li');
+        var _moisture = document.createElement('li');
+        var _waterhigh = document.createElement('li');
+        var _waterlow = document.createElement('li');
+
+        _name.innerHTML = '<strong>Name: '+name + '</strong>';
+        _moisture.innerHTML = 'Moisture Reading: '+moisture;
+        _waterhigh.innerHTML = 'Upper Limit: '+waterhigh;
+        _waterlow.innerHTML = 'Lower Limit: '+waterlow;
+
+        ul.appendChild(header);
+        ul.appendChild(_name);
+        ul.appendChild(_moisture);
+        ul.appendChild(_waterhigh);
+        ul.appendChild(_waterlow);
+
+    }
+
+    function FetchAllData(){
+      firebase.database().ref('PlantData').once('value',function(snapshot){
+          snapshot.forEach(
+       
+            function(PlantSnapshot){
+              let name = PlantSnapshot.val().name;
+              let moisture = PlantSnapshot.val().cMoist;
+              let waterhigh = PlantSnapshot.val().m_high;
+              let waterlow = PlantSnapshot.val().m_low;
+              addPlanttoList(name, moisture, waterhigh, waterlow);
+          }
+          
+        );
+    });
+
+  }
+
+  window.onload= FetchAllData;
+    
+ 
 </script>
 
 

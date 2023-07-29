@@ -18,10 +18,10 @@
 #include <WiFiUdp.h>
 
 // Network Credentials
-#define WIFI_SSID "MAKERSPACE"
-#define WIFI_PASSWORD "12345678"
-//#define WIFI_SSID "mariposa1052"
-//#define WIFI_PASSWORD "acorn105"
+//#define WIFI_SSID "MAKERSPACE"
+//#define WIFI_PASSWORD "12345678"
+#define WIFI_SSID "mariposa1052"
+#define WIFI_PASSWORD "acorn105"
 
 // Firebase project API Key
 #define API_KEY "AIzaSyCF6zm-Hlf90m8kcQNBth4EFZdiRuArbRc"
@@ -93,7 +93,7 @@ plant_profile getPlantProfile(int PlantID){
  String plantLookup = String(PlantID);
  plant_record.p_ID = PlantID;
  Serial.print("GET FUNCTION");
-   if (Firebase.RTDB.getString(&GardenDO, plantLookup + "/name")) {
+   if (Firebase.RTDB.getString(&GardenDO, "PlantData/" + plantLookup + "/name")) {
         plant_record.name = GardenDO.stringData();
         Serial.print("Read Name: ");
         Serial.println(plant_record.name);
@@ -103,7 +103,7 @@ plant_profile getPlantProfile(int PlantID){
       Serial.println(GardenDO.errorReason());
     }
 
-    if (Firebase.RTDB.getString(&GardenDO, plantLookup + "/address")) {
+    if (Firebase.RTDB.getString(&GardenDO, "PlantData/" + plantLookup + "/address")) {
         plant_record.pBudAddress = GardenDO.stringData();
         Serial.print("Read Address");
         Serial.println(plant_record.name);
@@ -113,7 +113,7 @@ plant_profile getPlantProfile(int PlantID){
       Serial.println(GardenDO.errorReason());
     }
 
-    if (Firebase.RTDB.getInt(&GardenDO, plantLookup + "/m_low")) {
+    if (Firebase.RTDB.getInt(&GardenDO, "PlantData/" + plantLookup + "/m_low")) {
         plant_record.moist_level_low = GardenDO.intData();
         Serial.print("Read Low: ");
         Serial.println(plant_record.moist_level_low);
@@ -123,7 +123,7 @@ plant_profile getPlantProfile(int PlantID){
       Serial.println(GardenDO.errorReason());
     }
 
-    if (Firebase.RTDB.getInt(&GardenDO, plantLookup + "/m_high")) {
+    if (Firebase.RTDB.getInt(&GardenDO, "PlantData/" + plantLookup + "/m_high")) {
         plant_record.moist_level_high = GardenDO.intData();
         Serial.print("Read High: ");
         Serial.println(plant_record.moist_level_high);
@@ -133,7 +133,7 @@ plant_profile getPlantProfile(int PlantID){
       Serial.println(GardenDO.errorReason());
     }
 
-    if (Firebase.RTDB.getInt(&GardenDO, plantLookup + "/w_time")) {
+    if (Firebase.RTDB.getInt(&GardenDO, "PlantData/" + plantLookup + "/w_time")) {
         plant_record.water_on_time_ms = GardenDO.intData();
         Serial.print("Read Water Time: ");
         Serial.println(plant_record.water_on_time_ms);
@@ -142,7 +142,7 @@ plant_profile getPlantProfile(int PlantID){
       Serial.println(GardenDO.errorReason());
     }
 
-      if (Firebase.RTDB.getInt(&GardenDO, plantLookup + "/soak")) {
+      if (Firebase.RTDB.getInt(&GardenDO, "PlantData/" + plantLookup + "/soak")) {
         plant_record.water_soak_time_ms = GardenDO.intData();
         Serial.print("Read Water Time: ");
         Serial.println(plant_record.water_soak_time_ms);
@@ -151,7 +151,7 @@ plant_profile getPlantProfile(int PlantID){
       Serial.println(GardenDO.errorReason());
     }
 
-   if (Firebase.RTDB.getBool(&GardenDO, plantLookup + "/soilSensor")) {
+   if (Firebase.RTDB.getBool(&GardenDO, "PlantData/" + plantLookup + "/soilSensor")) {
         plant_record.status_sensor = GardenDO.boolData();
         Serial.print("Read Soil Sensor: ");
         Serial.println(plant_record.status_sensor);
@@ -160,7 +160,7 @@ plant_profile getPlantProfile(int PlantID){
       Serial.println(GardenDO.errorReason());
     }
 
-  if (Firebase.RTDB.getBool(&GardenDO, plantLookup + "/pumpOutput")) {
+  if (Firebase.RTDB.getBool(&GardenDO, "PlantData/" + plantLookup + "/pumpOutput")) {
         plant_record.status_pump = GardenDO.boolData();
         Serial.print("Read Pump Output: ");
         Serial.println(plant_record.status_pump);
@@ -169,7 +169,7 @@ plant_profile getPlantProfile(int PlantID){
       Serial.println(GardenDO.errorReason());
     }
 
-      if (Firebase.RTDB.getBool(&GardenDO, plantLookup + "/wsourceSensor")) {
+      if (Firebase.RTDB.getBool(&GardenDO, "PlantData/" + plantLookup + "/wsourceSensor")) {
         plant_record.status_wsource = GardenDO.boolData();
         Serial.print("Read Water Source: ");
         Serial.println(plant_record.status_wsource);
@@ -177,7 +177,7 @@ plant_profile getPlantProfile(int PlantID){
     else {
       Serial.println(GardenDO.errorReason());
     }
-     if (Firebase.RTDB.getInt(&GardenDO, plantLookup + "/cMoist")) {
+     if (Firebase.RTDB.getInt(&GardenDO, "PlantData/" + plantLookup + "/cMoist")) {
         plant_record.currentMoist = GardenDO.intData();
         Serial.print("Current Moisture: ");
         Serial.println(plant_record.currentMoist);
@@ -395,14 +395,14 @@ void setup(){
         Serial.println (plantLookup);
 
         //get the plantlook up for the address
-         if (Firebase.RTDB.getString(&GardenDO, plantLookup + "/address")) {
+         if (Firebase.RTDB.getString(&GardenDO, "PlantData/" + plantLookup + "/address")) {
               readProfile.pBudAddress = GardenDO.stringData();
               Serial.print("Read Address");
               Serial.println(readProfile.pBudAddress);
               if (readProfile.pBudAddress == "none"){
                 //set the adddress of the record to the Mac Address here
                 Serial.println ("FOUND BLANK RECORD....");
-                if (Firebase.RTDB.setString(&GardenDO, plantLookup + "/address", pBudInfo.pBudAddress)){  
+                if (Firebase.RTDB.setString(&GardenDO, "PlantData/" + plantLookup + "/address", pBudInfo.pBudAddress)){  
                     Serial.println (GardenDO.stringData());
                     Serial.println("PASSED");
                     Serial.println("PATH: " + GardenDO.dataPath());
@@ -477,7 +477,7 @@ void loop(){
 
   // update current moist and log it
 
- if (Firebase.RTDB.setInt(&GardenDO, lookup + "/cMoist", percentageHumidity)){
+ if (Firebase.RTDB.setInt(&GardenDO, "PlantData/" + lookup + "/cMoist", percentageHumidity)){
       Serial.println("PASSED");
       Serial.println("PATH: " + GardenDO.dataPath());
       Serial.println("TYPE: " + GardenDO.dataType());
@@ -488,7 +488,7 @@ void loop(){
     }
    timeStamp = getTimeLogStamp();
    Serial.println(timeStamp);
-  if (Firebase.RTDB.setInt(&GardenDO, lookup + "/log/" + timeStamp, percentageHumidity)){
+  if (Firebase.RTDB.setInt(&GardenDO, "LogData/" + lookup + "/" + timeStamp + "/moistRead", percentageHumidity)){
       Serial.println("PASSED");
       Serial.println("PATH: " + GardenDO.dataPath());
       Serial.println("TYPE: " + GardenDO.dataType());
