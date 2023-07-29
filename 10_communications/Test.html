@@ -4,14 +4,44 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PHYSCI 70: Introduction to Digital Fabrication</title>
+    <title>Home Garden Hub</title>
 </head>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
 
 <body>
 
+<header>
+  <nav class="navbar navbar-expand-sm"> 
+  <div style="align-items: left; justify-content:left;" class="container-fluid">
+    <h3 class="nav-title">Explorations in Digital Fabrication</h3>
+    <div class="navbar-nav" style="align-items: right;">
+      <h4><a class="nav-link" href="https://fablab.atelierstark.com/index.html">Home</a></h4>
+      <h4><a class="nav-link" href="https://fablab.atelierstark.com/about.html">About</a></h4>
+    </div>
+  </div>
+</nav>
+</header>
+<br>
+<h5> Home Garden Hub </h5>
+
      <button id="turn-on" name="turnon">Turn On</button>
      <button id="turn-off" name="turnoff">Turn Off</button>
+     <form>
 
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Your name..">
+
+      <label for="email">email</label>
+      <input type="email" id="email" name="email" placeholder="Your email..">
+
+      <label for="message">Subject</label>
+      <textarea id="message" name="message" placeholder="Write something.." style="height:200px"></textarea>
+
+      <button id="submit_msg" type="button">Submit</button>
+    </form>
+    
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
 
@@ -55,5 +85,6 @@
         });
     }    
 </script>
+
 
 </body>
