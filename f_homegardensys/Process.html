@@ -479,6 +479,26 @@ http://educ8s.tv/arduino-2-8-ili9341-tutorial/#google_vignette
 
 https://www.youtube.com/watch?v=NidjZOxMMxo
 
+<img src="03_02_IGarden_TFTDisplaytoESP32Hookup_Stark_July29.jpg" class="photo" alt="Hooking up the TFT to the Feather">
+  <figcaption>After much searching on the internet for the proper wiring for this TFT screen, Kassia was able to help me figure it out. Yippeee!!!</figcaption>
+
+
+===CODE for WIRING
+
+// For the Adafruit shield, these are the default.
+#define TFT_DC 27 //4
+#define TFT_CS 15 //15
+#define TFT_RST 33 //2
+#define TFT_MISO 19 //19         
+#define TFT_MOSI 18 //23           
+#define TFT_CLK 5 
+
+// Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
+//Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
+// If using the breakout, change pins as desired
+Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_RST, TFT_MISO);
+
+=====
 
 Kerf Bending of design:
 https://hackaday.com/2012/06/12/bending-laser-cut-wood-without-steam-or-forms/#:~:text=By%20alternating%20laser%20cuts%20along,angle%20project%20boxes%20we%20see.
