@@ -24,7 +24,7 @@
 </nav>
 </header>
 <br>
-<h4 align=center> Home Garden Hub </h4>
+<div class="gh_title"> Home Garden Hub </div>
 <br>
 
  <table>
@@ -55,14 +55,44 @@
     </tbody>
 </table>
 
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
-     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
-   <!-- jQuery -->
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>
-    // Your web app's Firebase configuration
+<h5>Update Plant Preferences</h5>
+<br>
+
+<label>Plant ID</label><input id="IdBox" type="text"><br>
+
+<label>Name</label><input id="NameBox" type="text"><br>
+
+<label>Lower Limit</label><input id="LowerBox" type="text"><br>
+
+<label>Upper Limit</label><input id="UpperBox" type="text"><br>
+
+<label>Location</label><input id= "LocationBox" type = "text"><br>
+
+<select id="WaterBox">
+    <option value = "WaterOn">Water On</option>
+    <option value = "WaterOff">Water Off</option>
+</select>
+
+<br>
+
+<!-- <button id="Insbtn">INSERT</button> 
+<button id="Selbtn">SELECT</button> -->
+<button id="Updbtn">UPDATE</button>
+
+<hr>
+<!--<button id="Delbtn">DELETE</button>-->
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+
+
+<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+// Your web app's Firebase configuration
     var firebaseConfig = {
   apiKey: "AIzaSyCF6zm-Hlf90m8kcQNBth4EFZdiRuArbRc",
   authDomain: "gardenhub-51953.firebaseapp.com",
@@ -82,8 +112,19 @@
 
        //create a variable to hold our orders list from firebase
     var firebasePlantsCollection = database.ref().child('PlantData');
-
     var plantNo;
+
+    var namebox = document.getElementById("NameBox");
+    var idbox = document.getElementById("IdBox");
+    var lowerbox = document.getElementById("LowerBox");
+    var upperbox = document.getElementById("UpperBox");
+    var waterbox = document.getElementById("WaterBox");
+
+    var insBtn = document.getElementById("Insbtn");
+    var insBtn = document.getElementById("Selbtn");
+    var insBtn = document.getElementById("Updbtn");
+    var insBtn = document.getElementById("Delbtn");
+
 
     // make the buttons call the function below 
   //  document.getElementById('turn-on').addEventListener('click', turnOn, false);
@@ -165,11 +206,11 @@ function addPlanttoTable(name, moisture, waterlow, waterhigh, water){
               if(address != 'none'){
               let name = PlantSnapshot.val().name;
               let moisture = PlantSnapshot.val().cMoist;
-              let waterhigh = PlantSnapshot.val().m_high;
               let waterlow = PlantSnapshot.val().m_low;
+              let waterhigh = PlantSnapshot.val().m_high;
               let water;
              // addPlanttoList(name, moisture, waterhigh, waterlow);
-              addPlanttoTable(name, moisture, waterhigh, waterlow, water);}
+              addPlanttoTable(name, moisture, waterlow, waterhigh, water);}
           }
 
         );
@@ -177,9 +218,42 @@ function addPlanttoTable(name, moisture, waterlow, waterhigh, water){
 
   }
 
-  window.onload = FetchAllData;
-  window.turnOn = FetchAllData;
-    
+
+ // insert data function
+
+  function UpdateData(){
+    var nameValue = document.getElementById('NameBox').value
+    var idValue = document.getElementById('IdBox').value
+    var lowValue= document.getElementById('LowerBox').value
+    var highValue= document.getElementById('UpperBox').value
+
+    var plantrecord = database.ref().child('PlantData/' + idValue);
+    console.log(nameValue);
+    plantrecord.update({
+        name: nameValue,
+        m_low: lowValue,
+        m_high: highValue
+       // w_switch: waterbox.value
+
+    }
+
+    )
+    .then(()=>{
+        alert("data stored successfully");
+    })
+    .catch((error)=>{
+        alert("unsuccesful, error"+error);
+    });
+  }
+
+  //Assign events to button
+ 
+window.onload = FetchAllData;
+
+// add listener
+
+
+ Updbtn.addEventListener('click', UpdateData);
  
 </script>
 

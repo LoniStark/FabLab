@@ -124,3 +124,37 @@ code {
   padding: 20px;
 
 }
+
+label{
+  display: inline-block; 
+  width:200px;
+  font-size: 14px;
+}
+
+input{width:120px;
+ font-size: 14px;
+
+}
+
+button {
+  background-color: #5A5A5A; /* Gray */
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+}
+
+.gh_title {
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  text-align: center;
+  color: white;
+  margin-top: 10px;
+  background-color: #5A5A5A;
+  padding: 5px;
+}
+
+}
