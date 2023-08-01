@@ -27,10 +27,6 @@
 <div class="gh_title"> Home Garden Hub </div>
 <br>
 
- <table>
- <tr><td><button id="1-wateron" name="turnon">Home</button><button id="1-wateroff" name="turnoff">Away</button></td></tr>
- <tr><td><button id="2-wateron" name="turnon">Home</button><button id="2-wateroff" name="turnoff">Away</button></td></tr>
-</table>
 <br>
 
 <h5>Plant Collection</h5>  
@@ -55,7 +51,7 @@
     </tbody>
 </table>
 
-<h5>Update Plant Preferences</h5>
+<h5>Update Preferences</h5>
 <br>
 
 <label>Plant ID</label><input id="IdBox" type="text"><br>
@@ -79,9 +75,14 @@
 <button id="Selbtn">SELECT</button> -->
 <button id="Updbtn">UPDATE</button>
 
+<h5>Manual Watering</h5>
+
 <hr>
 <!--<button id="Delbtn">DELETE</button>-->
 
+
+ <tr><td><button id="1-wateron" name="turnon">Home</button><button id="1-wateroff" name="turnoff">Away</button></td></tr>
+ <tr><td><button id="2-wateron" name="turnon">Home</button><button id="2-wateroff" name="turnoff">Away</button></td></tr>
 
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 
@@ -171,7 +172,7 @@
 
 var stdNo = 0;
 
-function addPlanttoTable(name, moisture, waterlow, waterhigh, water){
+function addPlanttoTable(pid, name, moisture, waterlow, waterhigh, water){
         var tbody = document.getElementById('tbody1');
         var trow = document.createElement('tr');
         var td1 = document.createElement('td');
@@ -180,8 +181,8 @@ function addPlanttoTable(name, moisture, waterlow, waterhigh, water){
         var td4 = document.createElement('td');
          var td5 = document.createElement('td');
          var td6 = document.createElement('td');
-  
-         td1.innerHTML = ++stdNo;
+        ++stdNo;
+         td1.innerHTML = pid;
          td2.innerHTML = name;
          td3.innerHTML = moisture;
          td4.innerHTML = waterlow;
@@ -204,13 +205,14 @@ function addPlanttoTable(name, moisture, waterlow, waterhigh, water){
             function(PlantSnapshot){
               let address = PlantSnapshot.val().address;
               if(address != 'none'){
+            let pid = PlantSnapshot.val().p_ID;
               let name = PlantSnapshot.val().name;
               let moisture = PlantSnapshot.val().cMoist;
               let waterlow = PlantSnapshot.val().m_low;
               let waterhigh = PlantSnapshot.val().m_high;
               let water;
              // addPlanttoList(name, moisture, waterhigh, waterlow);
-              addPlanttoTable(name, moisture, waterlow, waterhigh, water);}
+              addPlanttoTable(pid, name, moisture, waterlow, waterhigh, water);}
           }
 
         );
@@ -239,7 +241,12 @@ function addPlanttoTable(name, moisture, waterlow, waterhigh, water){
 
     )
     .then(()=>{
-        alert("data stored successfully");
+        alert("Plant preferences updated successfully");
+        document.getElementById('NameBox').value = "";
+         document.getElementById('IdBox').value= "";
+        document.getElementById('LowerBox').value = "";
+        document.getElementById('UpperBox').value= "";
+
     })
     .catch((error)=>{
         alert("unsuccesful, error"+error);

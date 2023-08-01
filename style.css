@@ -129,6 +129,7 @@ label{
   display: inline-block; 
   width:200px;
   font-size: 14px;
+  margin-left: 20px;
 }
 
 input{width:120px;
@@ -149,7 +150,7 @@ button {
 
 .gh_title {
   font-family: Arial, sans-serif;
-  font-size: 18px;
+  font-size: 24px;
   text-align: center;
   color: white;
   margin-top: 10px;
