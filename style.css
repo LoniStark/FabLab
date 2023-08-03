@@ -73,6 +73,14 @@ header nav a {
   margin-right: auto;
   height : 500px;
 }
+
+.largevideo {
+  margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width : 500px;
+}
 /* Style for the about section */
 .about {
     text-align: center;

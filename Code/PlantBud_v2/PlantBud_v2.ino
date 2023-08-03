@@ -66,8 +66,8 @@ unsigned long previousMillis = 0;
 int count = 1;
 bool signupOK = false;
 bool found = false;
-int defaultDry = 3325;
-int defaultWet = 1250;
+int defaultDry = 3700;
+int defaultWet = 2348;
 int moistureVal;
 
 //Define structure for Plant Profile data to record plants in home garden
@@ -303,6 +303,11 @@ void setup(){
     Serial.print(".");
     delay(300);
   }
+
+pinMode(D0, INPUT);
+pinMode(D1, OUTPUT);
+
+
   Serial.println();
   Serial.print("Connected with IP: ");
   Serial.println(WiFi.localIP());
@@ -344,7 +349,7 @@ void setup(){
   
   String logTimeStamp = getTimeLogStamp();
 
-  delay(10000);
+  //delay(10000);
   //set the plant bud's profile
   pBudInfo.pBudAddress = WiFi.macAddress();
   Serial.println(pBudInfo.pBudAddress);
@@ -455,12 +460,13 @@ void loop(){
   
    if(currentMillis-previousMillis>10000){
      moistureVal = analogRead(D0);
- // Serial.print("Capacitive Reading:");
- // Serial.println(moistureVal);
-  int percentageHumidity = map(moistureVal, defaultWet, defaultDry, 100, 0);
-  Serial.print("Moisture Percentage:");
-  Serial.print(percentageHumidity);
-  Serial.println("%");
+    Serial.print("Capacitive Reading:");
+    Serial.println(moistureVal);
+    int percentageHumidity = map(moistureVal, defaultWet, defaultDry, 100, 0);
+    Serial.print("Moisture Percentage:");
+   Serial.print(percentageHumidity);
+   Serial.println("%");
+  delay(5000);
 
   //Serial.println(SUI_ID);
   previousMillis = currentMillis;
@@ -497,19 +503,22 @@ void loop(){
       Serial.println("FAILED");
       Serial.println("REASON: " + GardenDO.errorReason());
     }
+     Serial.println(pBudInfo.moist_level_low);
+    delay(10000);
 
   //check to see if needs water
   if (percentageHumidity<pBudInfo.moist_level_low){
     Serial.print("Needs water: ");
     Serial.println(pBudInfo.name);
-    
+    Serial.println("MOISTURE LOW");
+   
 
     while (percentageHumidity<pBudInfo.moist_level_high){
       Serial.println("Start pump");
       digitalWrite(D1, HIGH);
       delay(pBudInfo.water_soak_time_ms);
       Serial.println("Stop pump");
-       digitalWrite(D1, LOW);
+      digitalWrite(D1, LOW);
       Serial.println ("Take moisture measure");
       delay(pBudInfo.water_soak_time_ms);
       moistureVal = analogRead(D0);
