@@ -22,11 +22,11 @@
 
 <br> 
 
-<h4>Final Project: The Trials, Tribulations and Triumph</h4>
+<h4>Home Garden Hub: The Process</h4>
 
 <br>
 
-<h5>Home Garden Hub: Converging on the Idea</h5>
+<h5>Converging on the Idea</h5>
 
 
 After discussing the different ideas with others, I decided unless I came up with a better idea in the next week, I would spend my time on Plant Sitter and pursue my Cat's Cradle project as a way to learn more about robotic arms. The Plant Sitter is the front-runner because even though there are other solutions out there, there is a lot of range for the project from totally feasible to the ability to take the concept to new heights. There is the opportunity to connect different sensors, deploy different actions and evolve design/useability aspects of set up and monitoring. There could also be a specific personal and niche aspect of the problem which I could extend to in order to make it a unique solution.<br>
@@ -92,16 +92,14 @@ Based on reading through these resources, I also started to put together the pot
 <li>NPN Transistors</li>
 <li>Resistors </li>
 <li>Potentiometer </li>
-<li>5mm LED</li>
-<li>battery power source</li>
 </ul>
 
 <br>
 <h5>Evolving the Idea</h5>
 
-Last night, as I was falling asleep with various fragments of what I read or watched squirling in my head, an idea came to me. All the automation of home irrigation systems was about efficiency and solving the problem of going on vacation. But a hypothesis I have is that people don't just have houseplants to be efficient, it is also for fun and the joy of taking care of something else. 
+Last night, as I was falling asleep with various fragments of what I read or watched squirling in my head, an idea came to me. All the automation of home irrigation systems was about efficiency and solving the problem of going on vacation. But a hypothesis I have is that people don't just have houseplants to be efficient, it is also for fun and the joy of taking care of living things. 
 
-Novel idea - plants not just automation but nurturing. Can you still while travelling - garden virtually?
+Novel idea - plants not just automation, but also extending nurturing. 
 
 I found a couple of other resources in this direction.<br>
 
@@ -116,7 +114,7 @@ I found a couple of other resources in this direction.<br>
 <h5>Refining the Concept</h5>
 
 
-Based on the review of other systems and products out there, I refined the concept to be a home garden system that allows people who don't have the time or the green thumb to be able to have gorgeous garden oasis in their own homes. 
+Based on the review of other systems and products out there, I refined the concept to be a home garden system that allows people who don't have the time or the green thumb to be able to have a gorgeous garden oasis in their own homes. 
 
 <img src="Modish_Store_IndoorGarden.jpg" class="photo" alt="Indoor Home Garden">
   <figcaption>A modern indoor garden oasis.</figcaption>
@@ -326,7 +324,7 @@ To keep things simple, I want to standardize on as few objects and data structur
 
 
 
->> MAC Address becomes a index to access diferent sensors - need to get Plant ID to verify still same plant ID
+Note: MAC Address becomes a index to access diferent sensors - need to get Plant ID to verify still same plant ID
 
 
 <img src="01_IGarden_GreenThumb_Stark_July21.jpg" class="photo" alt="Indoor Home Garden concept for sensor.">
@@ -346,7 +344,7 @@ I set up a new real-time database in order to store the various <strong>Plant Pr
 
 I also had to port my development environment from the Arduino IDE to VS Code with Platform I/0 extension in prep for needing to build a web interace to to Garden Hub so users can access it remotely when they are away from home. Authentication was through anonymous and via email for the logging. 
 
-Based on learnings from this, I was able to flesh out more the Garden_Hub variables and functions. The Garden Hub class would need to include:
+Based on learnings from this, I was able to flesh out more the Garden Hub variables and functions. The Garden Hub class would need to include:
 
 - a real-time database object
 - functions to easily read, write and update a plant profile.
@@ -368,8 +366,8 @@ Up until now, I had played with the soil sensors getting data from a soil capaci
 - <strong>Water Source</strong>: (optional) input that senses the water level of the source. If low, will alert user to fill up the water source. 
     - Connected to  D2. Water Source "1" (yes) or "0" (no) set by check on if there is any valid data coming from pin D2.
     <br>
-- <strong>battery source</strong>: Each plant_helper will be powered by a battery source that will support the soil sensor and the water level sensor (if present). Depending on power needs of the water pump, this may be an externally powered unit. 
-    - Need to figure out how to detect low battery.
+- <strong>battery source</strong>: Each plant_bud will be powered by a battery source that will support the soil sensor and the water level sensor (if present). Depending on power needs of the water pump, this may be an externally powered unit. 
+    - Note: Need to figure out how to detect low battery.
      <br>
 
 <h5>Garden Hub Set-up</h5>
@@ -380,74 +378,65 @@ The Garden Hub hardware includes:
 - <strong>Screen (2.0inch Arduino SPI Module ILI9225)</strong>
     - Product Docs: http://www.lcdwiki.com/2.0inch_Arduino_SPI_Module_ILI9225_SKU:MAR2001
 <br>
-- <strong>BME280 Sensor</strong>
+- <strong>BME280 Sensor</strong> (potential if I get everything else figured out)
 <br>
-- <strong>Battery</strong>
+- <strong>Battery</strong> (potential if I get everything else figured out)
 <br>
 
 
-<h5>Setting up TFT Display on Garden Hub</h5>
+<h5>Setting up the connection between Garden Hub and Soil Sensors</h5>
 
 I used this example to figure out how to set up the connection between a Plant Bud and the Garden Hub: https://randomnerdtutorials.com/esp-now-two-way-communication-esp32/.
 
-- Installed the libraries: Adafruit SSD 1306. Already had the GFX library installed.
-- Installed the BME280 Sensor. Had the Adafruit Unified Sensor already installed
+I got ESP Now to work so that soil sensor data was being sent from a Xiao microcontroller to the ESP32 Feather microcontroller. However, after I incorporated this with the Wifi code between the Garden Hub and the Firebase real-time database, the system would sometimes work and other times not. The reliability went down. In discussion with Nathan, he suggested I simplify the design of this. Rather than put the Garden Hub as the single point of failure and "messenger", make the Firebase real-time database the source of truth and have each IoT devices and the Garden Hub communicate via Wifi with it. Passing moisture status and actions through the database. In this way, the Garden Hub becomes more of a user display unit. 
 
-Realized I had a TFT Screen: Installed the TFT_eSPI library based on info I got from a Reddit Forum.
+After considering this feedback, I redesigned the system and rewrote major parts of the code for this. I also simplified the design instead of dynamically creating random unique identifiers for plant ids. Instead I decide I would have the Garden Hub upon a user turning on to check to see if a plant database already exists. If none exists, it would create one with entries up to a maximum number of plants having the address be "none". For testing purposes I set the number of entries to 5, but could have been lower number. 
 
-Start with OLED so I can ensure it works before I work with the TFT screen.
+For each soil sensor, as it is turned on, it would look for a record in the database that would correspond to its MAC address of the microcontroller. If it finds one, then it would provision itself with the information in that record. If not, then it would look for a record with address of "none" and use it to set its own MAC address.
 
+Using this approach, I was finally able to get over the challenge of getting all the networking communications working. While I wanted to put a lot more input/output between the different components, I figured that the foundation was to get the sensor data and output of watering in place. More work will be needed on the database structure and the timing of the reads/writes for this. 
 
+<h5>Setting up TFT Display on Garden Hub</h5>
 
+I was able to the OLED screen working for the initial set of display output on the home garden hub unit. However, it was a very small screen and I knew having a larger screen would make the unit much nicer.
 
+I tried to get a larger TFT screen working and had some luck thanks to one of the TAs, Kassia. However, in the end, I was not able to get the TFT working fully. 
+Here were the resources that were most helpful:
 
+- http://educ8s.tv/arduino-2-8-ili9341-tutorial/
+- http://educ8s.tv/arduino-2-8-ili9341-tutorial/#google_vignette
 
-<br>
+<img src="03_02_IGarden_TFTDisplaytoESP32Hookup_Stark_July29.jpg" class="photo" alt="Hooking up the TFT to the Feather">
+  <figcaption>After much searching on the internet for the proper wiring for this TFT screen, Kassia was able to help me figure it out. Yippeee!!!</figcaption>
 
-<h5>Hardware Needs</h5>
-<br>
+Code for wiring. I suspect the TFT_CLK argument is still incorrect that is leading to possible issue with the aspect ratio of display. Also, Kassia and I looked at the header file for the definitions and these looked fine in terms of width and height definitions. 
 
-IoT Sensors for Plants and Water 
+<div class="box">
+  <pre>
+    <code>
+// For the Adafruit shield, these are the default.
+#define TFT_DC 27 //4
+#define TFT_CS 15 //15
+#define TFT_RST 33 //2
+#define TFT_MISO 19 //19         
+#define TFT_MOSI 18 //23           
+#define TFT_CLK 5 
 
-For each of the IoT sensors I needed to ensure it as equiped with the necessary input sensors and also the way to communicate with the central home garden hub. For this, an ESP32-C3 board is used. 
+// Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
+//Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
+// If using the breakout, change pins as desired
+Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_RST, TFT_MISO);
 
-Set up this board using these instructions:
-https://how2electronics.com/getting-started-with-seeed-xiao-esp32-c3-board/
+</code>
+</pre>
+</div>
 
+While the wiring worked for the TFT to get a display, for some reason it only used part of the screen and I could not get the "piano" pattern to move off of the screen. 
 
-I used it to ensure I had the dev environment set up properly.
-
-
-Sensors - using current ot measure resistance
-- challenge is moisture but also fertilizer. Also corrosion.
-
-https://www.youtube.com/watch?v=pFQaFnqpOtQ&t=2s
-
-- more or less water, discharge/charge will impact.
-
-Set up an analog read in pin D0 (also A0).
-
-Totally dry readings:
-- dry in air: 3165, 3310, 3319, 3311
-- submerged into water: 1277,1311, 1294
-
-Translate this moisture into percentage using map(); function.
-
-NOTE - CHECK CAPACITOR INFO and https://makersportal.com/blog/2020/5/26/capacitive-soil-moisture-calibration-with-arduino
-
-Create a soil sensor class and code which would sit on each soil sensor.
-
-Started to work on getting the basic soil moisture sensor unit communicating through ESP NOW with the main Garden Hub microcontroller.
-
-To start, I followed the information here: https://randomnerdtutorials.com/esp-now-two-way-communication-esp32/
-
-- Installed the Adafruit SSD 1306 library. Already had the GFX library.
-- Also the BME280 and already had the Unified Sensor Libraries
+For the amount of time I was putting into figuring out this component of the system, I had to pull the plug and move this piece into version 2. 
 
 
-===
-
-Re-engineering
+<h5>Setting up the Logging Data</h5>
 
 Time-date:
 https://randomnerdtutorials.com/esp32-date-time-ntp-client-server-arduino/
@@ -479,24 +468,9 @@ http://educ8s.tv/arduino-2-8-ili9341-tutorial/#google_vignette
 
 https://www.youtube.com/watch?v=NidjZOxMMxo
 
-<img src="03_02_IGarden_TFTDisplaytoESP32Hookup_Stark_July29.jpg" class="photo" alt="Hooking up the TFT to the Feather">
-  <figcaption>After much searching on the internet for the proper wiring for this TFT screen, Kassia was able to help me figure it out. Yippeee!!!</figcaption>
 
 
-===CODE for WIRING
 
-// For the Adafruit shield, these are the default.
-#define TFT_DC 27 //4
-#define TFT_CS 15 //15
-#define TFT_RST 33 //2
-#define TFT_MISO 19 //19         
-#define TFT_MOSI 18 //23           
-#define TFT_CLK 5 
-
-// Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
-//Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
-// If using the breakout, change pins as desired
-Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_RST, TFT_MISO);
 
 =====
 
