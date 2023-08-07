@@ -80,8 +80,9 @@ header nav a {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  height:1000px;
-  width: 630px;
+  width: 1000px;
+  height:630px;
+ 
 }
 /* Style for the about section */
 .about {
