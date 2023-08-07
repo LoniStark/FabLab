@@ -113,6 +113,10 @@ p {font-size: 16px;}
   background-color: #000;
 }
 
+.nav-link{
+  color: #D3D3D3;
+}
+
 figcaption {
   font-family: Arial, sans-serif;
   font-size: 14px;
