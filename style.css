@@ -71,7 +71,8 @@ header nav a {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  height : 500px;
+  width: 560;
+  height:315;
 }
 
 .largevideo {
@@ -79,7 +80,8 @@ header nav a {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width : 500px;
+  width: 1120;
+  height:630;
 }
 /* Style for the about section */
 .about {
